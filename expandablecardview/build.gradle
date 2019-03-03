@@ -1,5 +1,39 @@
-apply plugin: 'com.android.library'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
 
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+ext {
+    bintrayRepo = 'ExpandedCardView'
+    bintrayName = 'com.fawzy.expandedCardView'
+
+    publishedGroupId = 'expandedCardView'
+    libraryName = 'ExpandableCardView'
+    artifact = 'ExpandedCardView'
+
+    libraryDescription = 'An Android library that lets you create in a simple and fast CardView in which you can insert your custom layout and just expand and collapse without even writing a single Java/Kotlin line of code.'
+
+    siteUrl = 'https://github.com/ma7madfawzy/expandableCardView'
+    gitUrl = 'https://github.com/ma7madfawzy/expandableCardView.git'
+
+    libraryVersion = '1.0'
+
+    developerId = 'ma7madfawzy'
+    developerName = 'Mahmad fawzy'
+    developerEmail = 'ma7madfawzy@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 1.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-1.0.txt'
+    allLicenses = ["Apache-1.0"]
+}
 android {
     compileSdkVersion 28
 
@@ -31,3 +65,84 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 }
+group = publishedGroupId
+version = libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}
+
