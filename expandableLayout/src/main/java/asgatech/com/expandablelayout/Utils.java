@@ -1,4 +1,4 @@
-package asgatech.com.expandablecardview;
+package asgatech.com.expandablelayout;
 
 import android.content.Context;
 import android.content.res.Resources;
