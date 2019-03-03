@@ -15,7 +15,7 @@ ext {
     bintrayRepo = 'ExpandedCardView'
     bintrayName = 'com.fawzy.expandedCardView'
 
-    publishedGroupId = 'expandedCardView'
+    publishedGroupId = 'ma7madfawzy'
     libraryName = 'ExpandableCardView'
     artifact = 'ExpandedCardView'
 
