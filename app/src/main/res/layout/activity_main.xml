@@ -101,7 +101,7 @@
             android:layout_marginBottom="3dp"
             android:background="#000" />
 
-        <asgatech.com.expandablelayout.ExpandableLayout
+        <widget.com.expandablelayout.ExpandableLayout
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

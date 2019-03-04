@@ -1,4 +1,4 @@
-package asgatech.com.expandablelayout;
+package widget.com.expandablelayout;
 
 import android.content.Context;
 import android.content.res.Resources;

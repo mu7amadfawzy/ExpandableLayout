@@ -1,4 +1,4 @@
-package asgatech.com.expandedcardview;
+package sample.com.expandedcardview;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("asgatech.com.expandedcardview", appContext.getPackageName());
+        assertEquals("widget.com.expandedcardview", appContext.getPackageName());
     }
 }

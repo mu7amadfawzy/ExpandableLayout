@@ -1,8 +1,9 @@
-package asgatech.com.expandedcardview;
+package sample.com.expandedcardview;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import widget.com.expandedcardview.R;
 
 public class MainActivity extends AppCompatActivity {
 

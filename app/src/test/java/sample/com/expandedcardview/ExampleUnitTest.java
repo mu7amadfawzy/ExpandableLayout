@@ -1,4 +1,4 @@
-package asgatech.com.expandedcardview;
+package widget.com.expandedcardview;
 
 import org.junit.Test;
 

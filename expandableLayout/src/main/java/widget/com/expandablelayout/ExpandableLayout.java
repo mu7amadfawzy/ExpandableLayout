@@ -1,4 +1,4 @@
-package asgatech.com.expandablelayout;
+package widget.com.expandablelayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,10 +21,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import asgatech.com.expandablecardview.R;
+import widget.com.expandablecardview.R;
 
-import static asgatech.com.expandablelayout.AnimationUtils.COLLAPSING;
-import static asgatech.com.expandablelayout.AnimationUtils.EXPANDING;
+import static widget.com.expandablelayout.AnimationUtils.COLLAPSING;
+import static widget.com.expandablelayout.AnimationUtils.EXPANDING;
 
 /**
  * Created by Fawzy on 02,March,2019.

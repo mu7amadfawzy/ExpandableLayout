@@ -1,4 +1,4 @@
-package asgatech.com.expandablelayout;
+package widget.com.expandablelayout;
 
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
