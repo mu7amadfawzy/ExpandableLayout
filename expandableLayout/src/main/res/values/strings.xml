@@ -1,5 +1,5 @@
 <resources>
     <dimen name="default_card_height">@dimen/_50sdp</dimen>
     <dimen name="default_vertical_padding">@dimen/_10sdp</dimen>
-    <string name="app_name">expandablecardview</string>
+    <string name="app_name">expandableLayout</string>
 </resources>

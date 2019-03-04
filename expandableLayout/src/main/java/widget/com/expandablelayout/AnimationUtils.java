@@ -14,7 +14,7 @@ public class AnimationUtils {
         return animationUtils;
     }
 
-    RotateAnimation getArrowAnimation(final int initialHeight, final int distance, final int animationType, long animDuration) {
+    RotateAnimation getArrowAnimation(final int animationType, long animDuration) {
         RotateAnimation arrowAnimation = animationType == EXPANDING ?
                 new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                         0.5f) :

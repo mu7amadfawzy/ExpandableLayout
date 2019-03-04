@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="2dp">
@@ -14,84 +13,6 @@
         android:background="#fff"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:weightSum="4">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".65"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="A"
-                android:textColor="#fff"
-                android:textSize="18dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2.35"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="@dimen/_5sdp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="itemName"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    bind:gravity="@{isArabic}" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:maxLines="1"
-                    android:text="state"
-                    android:textColor="#000"
-                    android:textSize="10sp"
-                    bind:gravity="@{isArabic}" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:maxLines="1"
-                    android:text="03/03/2019"
-                    android:textColor="#000"
-                    android:textSize="10sp"
-                    bind:gravity="@{isArabic}" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:padding="3dp"
-                    android:text="Action"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="9sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
         <View
             android:id="@+id/seperator"
             android:layout_width="match_parent"
@@ -102,17 +23,37 @@
             android:background="#000" />
 
         <widget.com.expandablelayout.ExpandableLayout
-            android:id="@+id/profile"
+            android:id="@+id/cutsom_expandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
-            app:animationDuration="300"
-            app:arrow_icon="@drawable/arrow_down"
-            app:expandOnClick="true"
-            app:inner_view="@layout/layout_expandable_content"
-            app:startExpanded="false"
-            app:title="HEADER"
-            app:title_color="@color/colorPrimary" />
+            app:contentLayout="@layout/layout_expandable_content"
+            app:duration="300"
+            app:headerLayout="@layout/layout_expandable_header" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#000" />
+
+        <widget.com.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:arrow_icon="@drawable/arrow_down"
+            app:contentText="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
+            app:content_color="@color/colorPrimaryDark"
+            app:duration="300"
+            app:headerText="Header default Text sample"
+            app:header_color="@color/colorPrimary" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#000" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
