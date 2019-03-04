@@ -27,7 +27,6 @@
             android:id="@+id/cutsom_expandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
             app:contentLayout="@layout/layout_expandable_content"
             app:duration="300"
             app:headerLayout="@layout/layout_expandable_header" />
@@ -60,7 +59,6 @@
         <widget.com.expandablelayout.ExpandableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
             app:contentLayout="@layout/layout_expandable_content"
             app:duration="300"
             app:headerLayout="@layout/layout_expandable_header" />
@@ -92,7 +90,6 @@
         <widget.com.expandablelayout.ExpandableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
             app:contentLayout="@layout/layout_expandable_content"
             app:duration="300"
             app:headerLayout="@layout/layout_expandable_header" />
