@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ExpandableCardView">
+    <declare-styleable name="ExpandableLayout">
         <attr name="title" format="string" />
         <attr name="icon" format="reference" />
         <attr name="arrow_icon" format="reference" />

@@ -30,7 +30,7 @@ import static asgatech.com.expandablelayout.AnimationUtils.EXPANDING;
  * Created by Fawzy on 02,March,2019.
  * ma7madfawzy@gmail.com
  */
-public class ExpandableCardView extends LinearLayout {
+public class ExpandableLayout extends LinearLayout {
     public static final int DEFAULT_ANIM_DURATION = 350;
     private String title;
     private View innerView;
@@ -63,18 +63,18 @@ public class ExpandableCardView extends LinearLayout {
         }
     };
 
-    public ExpandableCardView(Context context) {
+    public ExpandableLayout(Context context) {
         super(context);
     }
 
-    public ExpandableCardView(Context context, AttributeSet attrs) {
+    public ExpandableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         initAttributes(context, attrs);
         initView(context);
     }
 
-    public ExpandableCardView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ExpandableLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         initAttributes(context, attrs);
@@ -89,15 +89,15 @@ public class ExpandableCardView extends LinearLayout {
     }
 
     private void initAttributes(Context context, AttributeSet attrs) {
-        typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableCardView);
-        title = typedArray.getString(R.styleable.ExpandableCardView_title);
-        iconDrawable = typedArray.getDrawable(R.styleable.ExpandableCardView_icon);
-        arrowDrawable = typedArray.getDrawable(R.styleable.ExpandableCardView_arrow_icon);
-        titleColor = typedArray.getColor(R.styleable.ExpandableCardView_title_color, Color.BLACK);
-        innerViewRes = typedArray.getResourceId(R.styleable.ExpandableCardView_inner_view, View.NO_ID);
-        expandOnClick = typedArray.getBoolean(R.styleable.ExpandableCardView_expandOnClick, false);
-        animDuration = typedArray.getInteger(R.styleable.ExpandableCardView_animationDuration, DEFAULT_ANIM_DURATION);
-        startExpanded = typedArray.getBoolean(R.styleable.ExpandableCardView_startExpanded, false);
+        typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
+        title = typedArray.getString(R.styleable.ExpandableLayout_title);
+        iconDrawable = typedArray.getDrawable(R.styleable.ExpandableLayout_icon);
+        arrowDrawable = typedArray.getDrawable(R.styleable.ExpandableLayout_arrow_icon);
+        titleColor = typedArray.getColor(R.styleable.ExpandableLayout_title_color, Color.BLACK);
+        innerViewRes = typedArray.getResourceId(R.styleable.ExpandableLayout_inner_view, View.NO_ID);
+        expandOnClick = typedArray.getBoolean(R.styleable.ExpandableLayout_expandOnClick, false);
+        animDuration = typedArray.getInteger(R.styleable.ExpandableLayout_animationDuration, DEFAULT_ANIM_DURATION);
+        startExpanded = typedArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
         typedArray.recycle();
     }
 
