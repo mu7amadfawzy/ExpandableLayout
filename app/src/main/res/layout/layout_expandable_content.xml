@@ -7,14 +7,15 @@
     android:orientation="horizontal"
     android:weightSum="4">
 
-    <TextView
+    <ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:layout_weight=".65"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:src="@mipmap/ic_launcher_round"
         android:text="A"
         android:textColor="#fff"
         android:textSize="18dp" />
@@ -65,6 +66,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:gravity="center"
             android:maxLines="1"
             android:padding="3dp"

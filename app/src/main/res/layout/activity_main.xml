@@ -2,15 +2,16 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     app:cardElevation="2dp">
 
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="3dp"
         android:background="#fff"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <View
@@ -47,7 +48,54 @@
             app:content_color="@color/colorPrimaryDark"
             app:duration="300"
             app:headerText="Header default Text sample"
-            app:header_color="@color/colorPrimary" />
+            app:header_color="@color/colorAccentDark" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#000" />
+
+        <widget.com.expandablelayout.ExpandableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            app:contentLayout="@layout/layout_expandable_content"
+            app:duration="300"
+            app:headerLayout="@layout/layout_expandable_header" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#000" />
+
+        <widget.com.expandablelayout.ExpandableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:arrow_icon="@drawable/arrow_down"
+            app:contentText="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
+            app:content_color="@color/colorAccent"
+            app:duration="300"
+            app:headerText="Header default Text sample"
+            app:header_color="@color/black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#000" />
+
+        <widget.com.expandablelayout.ExpandableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            app:contentLayout="@layout/layout_expandable_content"
+            app:duration="300"
+            app:headerLayout="@layout/layout_expandable_header" />
 
         <View
             android:layout_width="match_parent"
