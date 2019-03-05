@@ -58,11 +58,11 @@ implementation  'com.widget:expandableLayout:1+'
 #### In Java:
 
 ````
-ExpandableLayout expandableLayout=findViewById(R.id.expandableLayout);
+ExpandableLayout expandableLayout=new ExpandableLayout(context);
 ````
 ##### Default HeaderTV and ContentTV
 ````
-expandableLayout.setDefaultHeaderTitle("TITLE");
+expandableLayout.setDefaultHeaderTitle("Added Through Java");
 expandableLayout.setDefaultContentTitle("Content xxx");
 expandableLayout.setArrowDrawable(R.drawable.arrow_ic);
 ````
@@ -72,7 +72,27 @@ expandableLayout.setArrowDrawable(R.drawable.arrow_ic);
 expandableLayout.setHeaderLayout(R.layout.custom_header);
 expandableLayout.setContentLayout(R.layout.custom_content);
 ````
+#### In Kotlin:
 
+````
+var expandableLayout = ExpandableLayout(context)
+````
+##### Default HeaderTV and ContentTV
+````
+expandableLayout.setDefaultHeaderTitle("Added Through Kotlin")
+expandableLayout.setDefaultContentTitle("Content xxx")
+expandableLayout.setArrowDrawable(R.drawable.arrow_ic)
+````
+
+##### Custom HeaderTV OR ContentTV
+````
+expandableLayout.setHeaderLayout(R.layout.custom_header)
+expandableLayout.setContentLayout(R.layout.custom_content)
+````
+##### Adding the layout to container view
+````
+container.addView(expandableLayout)
+````
 ## Authors
 
 * [Mohammed Fawzy](https://github.com/ma7madfawzy)
