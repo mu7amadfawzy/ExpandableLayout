@@ -76,7 +76,7 @@ expandableLayout.setContentLayout(R.layout.custom_content);
 ## Authors
 
 * [Mohammed Fawzy](https://github.com/ma7madfawzy)
-* [Ali Gamal](https://github.com/aligamal.dev)
+* [Ali Gamal](https://github.com/DevAliGamal2030)
 
 ## License
 
