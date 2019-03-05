@@ -1,5 +1,5 @@
 # ExpandableLayout
-[ ![Download](https://api.bintray.com/packages/ma7madfawzy/expandableLayout/com.widget.expandableLayout/images/download.svg?version=1.1.0) ](https://bintray.com/ma7madfawzy/expandableLayout/com.widget.expandableLayout/1.1.0/link)
+[ ![Download](https://api.bintray.com/packages/ma7madfawzy/expandableLayout/com.widget.expandableLayout/images/download.svg?version=1.2.0) ](https://bintray.com/ma7madfawzy/expandableLayout/com.widget.expandableLayout/1.1.0/link)
 
 An Android library that lets you create an expandable layout in a simple and easy way in which you can use the default header and content OR pass your custom layout and just expand and collapse magic is all ready.
 
