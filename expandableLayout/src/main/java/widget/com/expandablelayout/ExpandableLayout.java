@@ -76,8 +76,7 @@ public class ExpandableLayout extends RelativeLayout {
         contentLayout = rootView.findViewById(R.id.view_expandable_content_layout);
         container = rootView.findViewById(R.id.container);
         headerLayout.setOnClickListener(this::onLayoutClicked);
-        if (attributesArray != null)// attributesArray != null means  that view was added via XML
-            inflateInnerViews(context);
+        inflateInnerViews(context);
         if (!startExpanded)
             toggle(false);
     }
@@ -120,10 +119,12 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void inflateHeader(Context context, int viewID) {
+        headerLayout.removeAllViews();
         headerLayout.addView(inflateView(context, viewID));
     }
 
     private void inflateContent(Context context, int viewID) {
+        contentLayout.removeAllViews();
         contentLayout.addView(inflateView(context, viewID));
     }
 

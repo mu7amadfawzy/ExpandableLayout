@@ -2,6 +2,7 @@ package sample.com.expandedcardview;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -44,7 +45,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        expandableLayout.setOnExpandedListener((v,
-                                                isExpanded) -> Toast.makeText(MainActivity.this, "isExpanded== " + isExpanded, Toast.LENGTH_SHORT).show());
+        expandableLayout.setOnExpandedListener(new ExpandableLayout.OnExpandedListener() {
+            @Override
+            public void onExpandChanged(View v, boolean isExpanded) {
+                Toast.makeText(MainActivity.this, "isExpanded== " + isExpanded, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
