@@ -75,9 +75,8 @@ expandableLayout.setContentLayout(R.layout.custom_content);
 
 ## Authors
 
-* **Mohammed Fawzy** - *Initial work* - [PurpleBooth](https://github.com/ma7madfawzy)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* ***Initial work* - [Mohammed Fawzy](https://github.com/ma7madfawzy)
+* ***Initial work* - [Ali Gamal](https://github.com/aligamal.dev)
 
 ## License
 
