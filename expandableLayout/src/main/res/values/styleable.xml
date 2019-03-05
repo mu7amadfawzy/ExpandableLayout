@@ -11,12 +11,13 @@
     <!--</declare-styleable>-->
 
     <declare-styleable name="ExpandableLayout">
-        <attr name="headerLayout" format="reference" />
-        <attr name="contentLayout" format="reference" />
+        <attr name="header_layout" format="reference" />
+        <attr name="content_layout" format="reference" />
         <attr name="duration" format="integer" />
+        <attr name="startExpanded" format="boolean" />
         <attr name="arrow_icon" format="reference" />
-        <attr name="headerText" format="string" />
-        <attr name="contentText" format="string" />
+        <attr name="header_title" format="string" />
+        <attr name="content_text" format="string" />
         <attr name="header_icon" format="reference" />
         <attr name="header_color" format="reference" />
         <attr name="content_color" format="reference" />

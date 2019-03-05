@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,8 @@ import static widget.com.expandablelayout.AnimationUtils.EXPANDING;
  * ma7madfawzy@gmail.com
  */
 public class ExpandableLayout extends RelativeLayout {
-    private Boolean isAnimationRunning = false;
-    private Boolean isOpened = false;
+    private boolean isAnimationRunning;
+    private boolean isExpanded = true;
     private Integer duration;
     private FrameLayout contentLayout;
     private FrameLayout headerLayout;
@@ -39,6 +38,9 @@ public class ExpandableLayout extends RelativeLayout {
     private int contentLayoutRes;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
+    private boolean startExpanded;
+    private Context context;
+    private TextView defaultContentTV, defaultHeaderTV;
 
     public ExpandableLayout(Context context) {
         super(context);
@@ -57,31 +59,34 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void initAttributes(Context context, AttributeSet attrs) {
+        this.context = context;
         attributesArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
-        headerLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_headerLayout, -1);
-        contentLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_contentLayout, -1);
+        headerLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_header_layout, -1);
+        contentLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_content_layout, -1);
         duration = attributesArray.getInt(R.styleable.ExpandableLayout_duration, getContext().getResources().getInteger(android.R.integer.config_shortAnimTime));
         arrowIconRes = attributesArray.getDrawable(R.styleable.ExpandableLayout_arrow_icon);
+        startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
     }
 
     private void initViews(final Context context, AttributeSet attrs) {
         final View rootView = View.inflate(context, R.layout.expandable_layout, this);
-        headerLayout = rootView.findViewById(R.id.view_expandable_headerlayout);
-        contentLayout = rootView.findViewById(R.id.view_expandable_contentLayout);
+        headerLayout = rootView.findViewById(R.id.view_expandable_header_layout);
+        contentLayout = rootView.findViewById(R.id.view_expandable_content_layout);
         container = rootView.findViewById(R.id.container);
         container.setOnClickListener(this::onLayoutClicked);
         inflateInnerViews(context);
+        if (!startExpanded)
+            toggle(false);
     }
 
     private void inflateInnerViews(Context context) {
         if (headerLayoutRes == -1)
             inflateDefaultHeader(context);
+        else inflateHeader(context, headerLayoutRes);
         if (contentLayoutRes == -1)
             inflateDefaultContent(context);
-        else {
-            inflateHeader(context, headerLayoutRes);
-            inflateContent(context, contentLayoutRes);
-        }
+        else inflateContent(context, contentLayoutRes);
+
         attributesArray.recycle();
     }
 
@@ -89,25 +94,21 @@ public class ExpandableLayout extends RelativeLayout {
         headerLayout.addView(inflateView(context, R.layout.default_header));
         arrowBtn = headerLayout.findViewById(R.id.arrow);
         setDrawableBackground(arrowBtn, arrowIconRes);
-        TextView headerTV = (headerLayout.findViewById(R.id.headerTV));
-        String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_headerText);
-        headerTV.setText(headerTxt);
-        Drawable headerIcon = attributesArray.getDrawable(R.styleable.ExpandableLayout_header_icon);
-        if (headerIcon != null)
-            ((ImageButton) headerLayout.findViewById(R.id.headerIcon)).setImageDrawable(headerIcon);
+        defaultHeaderTV = (headerLayout.findViewById(R.id.headerTV));
+        String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_header_title);
         int headerTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_header_color, Color.BLACK);
-        if (headerTV != null)
-            headerTV.setTextColor(headerTextColor);
+        setDefaultHeaderTitle(headerTxt, headerTextColor);
+        Drawable headerIcon = attributesArray.getDrawable(R.styleable.ExpandableLayout_header_icon);
+        setArrowDrawable(headerIcon);
     }
 
     private void inflateDefaultContent(Context context) {
         contentLayout.addView(inflateView(context, R.layout.default_content));
-        TextView contentTV = (contentLayout.findViewById(R.id.contentTV));
-        String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_contentText);
-        contentTV.setText(contentTxt);
+        defaultContentTV = (contentLayout.findViewById(R.id.contentTV));
+        String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_content_text);
+        defaultContentTV.setText(contentTxt);
         int contentTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_content_color, Color.BLACK);
-        if (contentTV != null)
-            contentTV.setTextColor(contentTextColor);
+        setDefaultContentTitle(contentTxt, contentTextColor);
     }
 
     private void inflateHeader(Context context, int viewID) {
@@ -132,25 +133,16 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void onLayoutClicked(View v) {
+        toggle(true);
+    }
+
+    public void toggle(boolean smoothAnimate) {
         if (!isAnimationRunning) {
-            if (contentLayout.getVisibility() == VISIBLE)
-                collapse(contentLayout);
+            if (isExpanded)
+                collapse(smoothAnimate);
             else
-                expand(contentLayout);
-
-            setAnimatingStateEnabled();
+                expand(smoothAnimate);
         }
-    }
-
-    private void setAnimatingStateEnabled() {
-        isAnimationRunning = true;
-        new Handler().postDelayed(() -> isAnimationRunning = false, duration);
-    }
-
-    private void expand(final View view) {
-        container.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        animateViews(view, container.getHeight(), container.getMeasuredHeight()
-                , EXPANDING);
     }
 
     private void startArrowRotation(int animationType) {
@@ -160,22 +152,28 @@ public class ExpandableLayout extends RelativeLayout {
         arrowBtn.startAnimation(arrowAnimation);
     }
 
-    private void collapse(final View view) {
-        view.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        animateViews(view, view.getMeasuredHeight(), contentLayout.getMeasuredHeight(), COLLAPSING);
+    private void expand(boolean smoothAnimate) {
+        contentLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        headerLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        animateViews(contentLayout, headerLayout.getMeasuredHeight(), contentLayout.getMeasuredHeight()
+                , EXPANDING, smoothAnimate);
     }
 
-    private void animateViews(final View view, final int initialHeight, final int distance, final int animationType) {
-        if (animationType == EXPANDING)
-            view.setVisibility(VISIBLE);
+    private void collapse(boolean smoothAnimate) {
+        contentLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        animateViews(contentLayout, contentLayout.getMeasuredHeight(), contentLayout.getMeasuredHeight(),
+                COLLAPSING, smoothAnimate);
+    }
+
+    private void animateViews(final View view, final int initialHeight, final int distance, final int animationType, boolean smooth) {
+        isAnimationRunning = true;
         animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 if (interpolatedTime == 1) {
-                    if (animationType == COLLAPSING)
-                        view.setVisibility(GONE);
-                    isOpened = animationType != COLLAPSING;
+                    isExpanded = animationType != COLLAPSING;
                     updateListener(view, animationType);
+                    isAnimationRunning = false;
                 }
                 view.getLayoutParams().height = animationType == EXPANDING ? (int) (initialHeight + (distance * interpolatedTime)) :
                         (int) (initialHeight - (distance * interpolatedTime));
@@ -191,7 +189,7 @@ public class ExpandableLayout extends RelativeLayout {
             }
         };
 
-        animation.setDuration(duration);
+        animation.setDuration(smooth ? duration : 0);
 
         startAnimation(animation);
         startArrowRotation(animationType);
@@ -201,26 +199,12 @@ public class ExpandableLayout extends RelativeLayout {
         if (listener != null) {
             if (animationType == EXPANDING) {
                 listener.onExpandChanged(view, true);
-            } else {
-                listener.onExpandChanged(view, false);
+            } else {//in case it is getting collapsed by attribute startExpanded then updating listener isn't required
+                if (!startExpanded)
+                    startExpanded = true;
+                else
+                    listener.onExpandChanged(view, false);
             }
-        }
-    }
-
-    public Boolean isOpened() {
-        return isOpened;
-    }
-
-    public void show() {
-        if (!isAnimationRunning) {
-            expand(contentLayout);
-            isAnimationRunning = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    isAnimationRunning = false;
-                }
-            }, duration);
         }
     }
 
@@ -228,20 +212,36 @@ public class ExpandableLayout extends RelativeLayout {
         return headerLayout;
     }
 
+    public void setHeaderLayout(int layoutRes) {
+        headerLayoutRes = layoutRes;
+        inflateHeader(context, layoutRes);
+    }
+
     public FrameLayout getContentLayout() {
         return contentLayout;
     }
 
-    public void hide() {
-        if (!isAnimationRunning) {
-            collapse(contentLayout);
-            isAnimationRunning = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    isAnimationRunning = false;
-                }
-            }, duration);
+    public void setContentLayout(int layoutRes) {
+        contentLayoutRes = layoutRes;
+        inflateContent(context, layoutRes);
+    }
+
+    public void setArrowDrawable(Drawable drawable) {
+        if (drawable != null)
+            ((ImageButton) headerLayout.findViewById(R.id.headerIcon)).setImageDrawable(drawable);
+    }
+
+    public void setDefaultHeaderTitle(String title, int headerTextColor) {
+        if (defaultHeaderTV != null) {
+            defaultHeaderTV.setText(title);
+            defaultHeaderTV.setTextColor(headerTextColor);
+        }
+    }
+
+    public void setDefaultContentTitle(String title, int contentTextColor) {
+        if (defaultContentTV != null) {
+            defaultContentTV.setText(title);
+            defaultContentTV.setTextColor(contentTextColor);
         }
     }
 
@@ -252,6 +252,18 @@ public class ExpandableLayout extends RelativeLayout {
 
     public void setOnExpandedListener(ExpandableLayout.OnExpandedListener listener) {
         this.listener = listener;
+    }
+
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public View getHeaderLayoutView() {
+        return headerLayout;
+    }
+
+    public View getContentLayoutView() {
+        return contentLayout;
     }
 
     public interface OnExpandedListener {

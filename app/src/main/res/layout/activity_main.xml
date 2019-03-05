@@ -1,104 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardElevation="2dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/container"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="252dp"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/main_collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="Collabsable Layout">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/mess"
+                app:layout_collapseMode="pin"
+                app:layout_collapseParallaxMultiplier="0.7" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/toolbarTheme"
+                app:layout_collapseMode="pin" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="3dp"
-        android:background="#fff"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <View
-            android:id="@+id/seperator"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="#000" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="#FAFAFA"
+            android:clipChildren="false"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
-        <widget.com.expandablelayout.ExpandableLayout
-            android:id="@+id/cutsom_expandable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentLayout="@layout/layout_expandable_content"
-            app:duration="300"
-            app:headerLayout="@layout/layout_expandable_header" />
+            <widget.com.expandablelayout.ExpandableLayout
+                android:id="@+id/cutsom_expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:content_layout="@layout/layout_expandable_content"
+                app:duration="300"
+                app:header_layout="@layout/layout_expandable_header"
+                app:startExpanded="true" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#000" />
 
-        <widget.com.expandablelayout.ExpandableLayout
-            android:id="@+id/expandable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:arrow_icon="@drawable/arrow_down"
-            app:contentText="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
-            app:content_color="@color/colorPrimaryDark"
-            app:duration="300"
-            app:headerText="Header default Text sample"
-            app:header_color="@color/colorAccentDark" />
+            <widget.com.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:arrow_icon="@drawable/arrow_down"
+                app:content_color="@color/colorPrimaryDark"
+                app:content_text="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
+                app:duration="300"
+                app:header_color="@color/colorAccentDark"
+                app:header_title="Header default Text sample" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#000" />
 
-        <widget.com.expandablelayout.ExpandableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentLayout="@layout/layout_expandable_content"
-            app:duration="300"
-            app:headerLayout="@layout/layout_expandable_header" />
+            <widget.com.expandablelayout.ExpandableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:content_layout="@layout/passengers"
+                app:duration="300"
+                app:header_color="@color/colorPrimaryDark"
+                app:header_title="passengers"
+                app:startExpanded="true" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#000" />
+        </LinearLayout>
 
-        <widget.com.expandablelayout.ExpandableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:arrow_icon="@drawable/arrow_down"
-            app:contentText="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
-            app:content_color="@color/colorAccent"
-            app:duration="300"
-            app:headerText="Header default Text sample"
-            app:header_color="@color/black" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="#000" />
-
-        <widget.com.expandablelayout.ExpandableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentLayout="@layout/layout_expandable_content"
-            app:duration="300"
-            app:headerLayout="@layout/layout_expandable_header" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="#000" />
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
