@@ -27,15 +27,14 @@ import static widget.com.expandablelayout.AnimationUtils.EXPANDING;
 public class ExpandableLayout extends RelativeLayout {
     private boolean isAnimationRunning;
     private boolean isExpanded = true;
-    private Integer duration;
+    private Integer duration = 300;
     private FrameLayout contentLayout;
     private FrameLayout headerLayout;
     private RelativeLayout container;
     private ImageButton arrowBtn;
     private Animation animation;
     private ExpandableLayout.OnExpandedListener listener;
-    private int headerLayoutRes;
-    private int contentLayoutRes;
+    private int headerLayoutRes = -1, contentLayoutRes = -1;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
     private boolean startExpanded;
@@ -44,22 +43,25 @@ public class ExpandableLayout extends RelativeLayout {
 
     public ExpandableLayout(Context context) {
         super(context);
+        this.context = context;
+        initViews(context);
     }
 
     public ExpandableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         initAttributes(context, attrs);
-        initViews(context, attrs);
+        initViews(context);
     }
 
     public ExpandableLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         initAttributes(context, attrs);
-        initViews(context, attrs);
+        initViews(context);
     }
 
     private void initAttributes(Context context, AttributeSet attrs) {
-        this.context = context;
         attributesArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
         headerLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_header_layout, -1);
         contentLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_content_layout, -1);
@@ -68,13 +70,14 @@ public class ExpandableLayout extends RelativeLayout {
         startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
     }
 
-    private void initViews(final Context context, AttributeSet attrs) {
+    private void initViews(final Context context) {
         final View rootView = View.inflate(context, R.layout.expandable_layout, this);
         headerLayout = rootView.findViewById(R.id.view_expandable_header_layout);
         contentLayout = rootView.findViewById(R.id.view_expandable_content_layout);
         container = rootView.findViewById(R.id.container);
-        container.setOnClickListener(this::onLayoutClicked);
-        inflateInnerViews(context);
+        headerLayout.setOnClickListener(this::onLayoutClicked);
+        if (attributesArray != null)// attributesArray != null means  that view was added via XML
+            inflateInnerViews(context);
         if (!startExpanded)
             toggle(false);
     }
@@ -87,14 +90,17 @@ public class ExpandableLayout extends RelativeLayout {
             inflateDefaultContent(context);
         else inflateContent(context, contentLayoutRes);
 
-        attributesArray.recycle();
+        if (attributesArray != null)
+            attributesArray.recycle();
     }
 
     private void inflateDefaultHeader(Context context) {
         headerLayout.addView(inflateView(context, R.layout.default_header));
         arrowBtn = headerLayout.findViewById(R.id.arrow);
-        setDrawableBackground(arrowBtn, arrowIconRes);
         defaultHeaderTV = (headerLayout.findViewById(R.id.headerTV));
+        setDrawableBackground(arrowBtn, arrowIconRes);
+        if (attributesArray == null)
+            return;
         String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_header_title);
         int headerTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_header_color, Color.BLACK);
         setDefaultHeaderTitle(headerTxt, headerTextColor);
@@ -105,6 +111,8 @@ public class ExpandableLayout extends RelativeLayout {
     private void inflateDefaultContent(Context context) {
         contentLayout.addView(inflateView(context, R.layout.default_content));
         defaultContentTV = (contentLayout.findViewById(R.id.contentTV));
+        if (attributesArray == null)
+            return;
         String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_content_text);
         defaultContentTV.setText(contentTxt);
         int contentTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_content_color, Color.BLACK);
@@ -208,17 +216,9 @@ public class ExpandableLayout extends RelativeLayout {
         }
     }
 
-    public FrameLayout getHeaderLayout() {
-        return headerLayout;
-    }
-
     public void setHeaderLayout(int layoutRes) {
         headerLayoutRes = layoutRes;
         inflateHeader(context, layoutRes);
-    }
-
-    public FrameLayout getContentLayout() {
-        return contentLayout;
     }
 
     public void setContentLayout(int layoutRes) {
@@ -227,20 +227,41 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     public void setArrowDrawable(Drawable drawable) {
-        if (drawable != null)
+        if (drawable != null && headerLayout != null && headerLayout.findViewById(R.id.headerIcon) != null)
             ((ImageButton) headerLayout.findViewById(R.id.headerIcon)).setImageDrawable(drawable);
     }
 
+
     public void setDefaultHeaderTitle(String title, int headerTextColor) {
+        setDefaultHeaderTitle(title);
+        setDefaultHeaderTextColor(headerTextColor);
+    }
+
+    public void setDefaultHeaderTextColor(int headerTextColor) {
         if (defaultHeaderTV != null) {
-            defaultHeaderTV.setText(title);
             defaultHeaderTV.setTextColor(headerTextColor);
         }
     }
 
+    public void setDefaultHeaderTitle(String title) {
+        if (defaultHeaderTV != null) {
+            defaultHeaderTV.setText(title);
+        }
+    }
+
     public void setDefaultContentTitle(String title, int contentTextColor) {
+        setDefaultContentTitle(title);
+        setDefaultContentTextColor(contentTextColor);
+    }
+
+    public void setDefaultContentTitle(String title) {
         if (defaultContentTV != null) {
             defaultContentTV.setText(title);
+        }
+    }
+
+    public void setDefaultContentTextColor(int contentTextColor) {
+        if (defaultContentTV != null) {
             defaultContentTV.setTextColor(contentTextColor);
         }
     }

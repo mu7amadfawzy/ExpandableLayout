@@ -33,6 +33,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/_18sdp"
         android:background="?selectableItemBackgroundBorderless"
+        android:clickable="false"
         android:src="@drawable/arrow_down" />
 
 </RelativeLayout>
