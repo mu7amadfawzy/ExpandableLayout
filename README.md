@@ -96,7 +96,7 @@ container.addView(expandableLayout)
 ````
 ##### You can use toggle() to reverse the state, and use isExpanded() to check if it was expanded or not.
 
-##### OnExpandedListener that can be used to listen to state change:
+#### OnExpandedListener that can be used to listen to state change:
 ###### In Java
 ````
 expandableLayout.setOnExpandedListener(new OnExpandedListener() {
