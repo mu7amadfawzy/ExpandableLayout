@@ -23,11 +23,11 @@ implementation  'com.widget:expandableLayout:1+'
 </dependency>
 
 ```
-### 2- Usage
+## 2- Usage
 
-#### In XML Layout:
- 
-```
+### 2.1 XML Layout:
+
+ ```
 <widget.com.expandablelayout.ExpandableLayout
  android:layout_width="match_parent"
  android:layout_height="wrap_content"
@@ -39,22 +39,35 @@ implementation  'com.widget:expandableLayout:1+'
  app:header_color="@color/colorAccentDark" /> 
 
 ```
-##### You can use the default HeaderTV and ContentTV
+#### You can use the default HeaderTV and ContentTV
 
-###### ````header_title```` sets the textColor of the headerTV
-###### ````header_color```` sets the text of the headerTV 
-###### ````arrow_icon```` sets the resource of the arrowBtn (which is visible with using the default headerTV) 
+##### ````header_title```` sets the text of the headerTV 
+##### ````header_color```` sets the textColor of the headerTV
+##### ````arrow_icon```` sets the resource of the arrowBtn (which is visible with using the default headerTV) 
 
-###### ````content_text````   sets the text of the contentTV
-###### ````content_color```` sets the textColor of the contentTV
+##### ````content_text````   sets the text of the contentTV
+##### ````content_color```` sets the textColor of the contentTV
 
-###### ````duration```` sets the duration of the collabse and expand animation
+##### ````duration```` sets the duration of the collabse and expand animation
 
-##### Or you can use set a custom header or a custom content 
+#### Or you can use set a custom header or a custom content 
 
-###### ````header_layout````   sets the declared layout resource as the header layout
-###### ````content_layout```` sets the declared layout resource as the content layout 
+##### ````header_layout````   sets the declared layout resource as the header layout
+##### ````content_layout```` sets the declared layout resource as the content layout 
 
+#### You can use toggle() to reverse the state, and use isExpanded() to check if it was expanded or not.
+
+#### setOnExpandedListener that can be used to listen to state change:
+````
+expandableLayout.setOnExpandedListener(new OnExpandedListener() {
+    @Override
+    public void onExpandChanged(View view, boolean isExpanded) {
+        //TODO handle onExpandChanged
+    }
+});
+````
+
+### 2.2 Dynamically:
 
 #### In Java:
 
@@ -94,25 +107,9 @@ expandableLayout.setContentLayout(R.layout.custom_content)
 ````
 container.addView(expandableLayout)
 ````
-##### You can use toggle() to reverse the state, and use isExpanded() to check if it was expanded or not.
 
-#### OnExpandedListener that can be used to listen to state change:
-###### In Java
-````
-expandableLayout.setOnExpandedListener(new OnExpandedListener() {
-    @Override
-    public void onExpandChanged(View view, boolean isExpanded) {
-        //TODO handle onExpandChanged
-    }
-});
-````
-###### In Kotlin
-````
-expandableLayout.setOnExpandedListener { view, isExpanded ->
-    //TODO handle onExpandChanged
- }
-````
 ### Happy Coding
+
 ## Authors
 
 * [Mohammed Fawzy](https://github.com/ma7madfawzy)
