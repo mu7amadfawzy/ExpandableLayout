@@ -76,9 +76,13 @@
                 android:layout_height="wrap_content"
                 app:arrow_icon="@drawable/arrow_down"
                 app:content_color="@color/colorPrimaryDark"
+                app:content_padding="@dimen/_8sdp"
                 app:content_text="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
+                app:content_text_style="bold"
                 app:duration="300"
                 app:header_color="@color/colorAccentDark"
+                app:header_padding="@dimen/_8sdp"
+                app:header_text_style="italic"
                 app:header_title="Header default Text sample" />
 
             <View

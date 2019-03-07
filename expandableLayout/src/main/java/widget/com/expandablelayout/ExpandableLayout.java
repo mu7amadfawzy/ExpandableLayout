@@ -35,10 +35,11 @@ public class ExpandableLayout extends RelativeLayout {
     private ImageButton arrowBtn;
     private Animation animation;
     private ExpandableLayout.OnExpandedListener listener;
-    private int headerLayoutRes = -1, contentLayoutRes = -1;
+    private int headerLayoutRes = -1, contentLayoutRes = -1, headerTextStyle = Typeface.NORMAL, contentTextStyle = Typeface.NORMAL;
+    private int headerPadding = -1, contentPadding = -1;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
-    private boolean startExpanded, headerBold;
+    private boolean startExpanded;
     private Context context;
     private TextView defaultContentTV, defaultHeaderTV;
     private float header_text_size, content_text_size;
@@ -72,7 +73,10 @@ public class ExpandableLayout extends RelativeLayout {
         startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
         header_text_size = attributesArray.getDimension(R.styleable.ExpandableLayout_header_text_size, -1);
         content_text_size = attributesArray.getInt(R.styleable.ExpandableLayout_content_text_size, -1);
-        headerBold = attributesArray.getBoolean(R.styleable.ExpandableLayout_header_bold, false);
+        headerTextStyle = attributesArray.getInt(R.styleable.ExpandableLayout_header_text_style, Typeface.NORMAL);
+        contentTextStyle = attributesArray.getInt(R.styleable.ExpandableLayout_content_text_style, Typeface.NORMAL);
+        headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
+        contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
     }
 
     private void initViews(final Context context) {
@@ -112,11 +116,13 @@ public class ExpandableLayout extends RelativeLayout {
         setArrowDrawable(headerIcon);
         setHeaderTextSize(header_text_size);
         setContentTextSize(content_text_size);
-        setHeaderTextStyle(Typeface.defaultFromStyle(headerBold ? Typeface.BOLD : Typeface.NORMAL));
+        setHeaderTextStyle(getTypeFace(headerTextStyle));
+        if (headerPadding != -1)
+            headerLayout.setPadding(headerPadding, headerPadding, headerPadding, headerPadding);
     }
 
-    public void setHeaderTextStyle(Typeface typeface) {
-        defaultHeaderTV.setTypeface(typeface);
+    public void setHeaderTextStyle(int typeface) {
+        defaultHeaderTV.setTypeface(Typeface.defaultFromStyle(typeface));
     }
 
     public void setContentTextSize(float textSize) {
@@ -138,6 +144,25 @@ public class ExpandableLayout extends RelativeLayout {
         defaultContentTV.setText(contentTxt);
         int contentTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_content_color, Color.BLACK);
         setDefaultContentTitle(contentTxt, contentTextColor);
+        setContentTextStyle(getTypeFace(contentTextStyle));
+        if (contentPadding != -1)
+            headerLayout.setPadding(contentPadding, contentPadding, contentPadding, contentPadding);
+    }
+
+    private void setContentTextStyle(int typeface) {
+        defaultContentTV.setTypeface(Typeface.defaultFromStyle(typeface));
+    }
+
+    private int getTypeFace(int typeface) {
+        switch (typeface) {
+            case 0:
+                return Typeface.NORMAL;
+            case 1:
+                return Typeface.BOLD;
+            case 2:
+                return Typeface.ITALIC;
+        }
+        return typeface;
     }
 
     private void inflateHeader(Context context, int viewID) {
