@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="none"
-        android:text="Custom Header"
+        android:text="Header Layout"
         android:textColor="@color/red"
         android:textStyle="bold" />
 

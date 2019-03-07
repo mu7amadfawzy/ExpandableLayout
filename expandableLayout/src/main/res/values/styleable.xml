@@ -13,6 +13,9 @@
     <declare-styleable name="ExpandableLayout">
         <attr name="header_layout" format="reference" />
         <attr name="content_layout" format="reference" />
+        <attr name="header_text_size" format="reference" />
+        <attr name="content_text_size" format="reference" />
+        <attr name="header_bold" format="boolean" />
         <attr name="duration" format="integer" />
         <attr name="startExpanded" format="boolean" />
         <attr name="arrow_icon" format="reference" />

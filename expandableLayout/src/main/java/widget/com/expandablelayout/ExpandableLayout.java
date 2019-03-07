@@ -3,6 +3,7 @@ package widget.com.expandablelayout;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -37,9 +38,10 @@ public class ExpandableLayout extends RelativeLayout {
     private int headerLayoutRes = -1, contentLayoutRes = -1;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
-    private boolean startExpanded;
+    private boolean startExpanded, headerBold;
     private Context context;
     private TextView defaultContentTV, defaultHeaderTV;
+    private float header_text_size, content_text_size;
 
     public ExpandableLayout(Context context) {
         super(context);
@@ -68,6 +70,9 @@ public class ExpandableLayout extends RelativeLayout {
         duration = attributesArray.getInt(R.styleable.ExpandableLayout_duration, getContext().getResources().getInteger(android.R.integer.config_shortAnimTime));
         arrowIconRes = attributesArray.getDrawable(R.styleable.ExpandableLayout_arrow_icon);
         startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
+        header_text_size = attributesArray.getDimension(R.styleable.ExpandableLayout_header_text_size, -1);
+        content_text_size = attributesArray.getInt(R.styleable.ExpandableLayout_content_text_size, -1);
+        headerBold = attributesArray.getBoolean(R.styleable.ExpandableLayout_header_bold, false);
     }
 
     private void initViews(final Context context) {
@@ -105,6 +110,23 @@ public class ExpandableLayout extends RelativeLayout {
         setDefaultHeaderTitle(headerTxt, headerTextColor);
         Drawable headerIcon = attributesArray.getDrawable(R.styleable.ExpandableLayout_header_icon);
         setArrowDrawable(headerIcon);
+        setHeaderTextSize(header_text_size);
+        setContentTextSize(content_text_size);
+        setHeaderTextStyle(Typeface.defaultFromStyle(headerBold ? Typeface.BOLD : Typeface.NORMAL));
+    }
+
+    public void setHeaderTextStyle(Typeface typeface) {
+        defaultHeaderTV.setTypeface(typeface);
+    }
+
+    public void setContentTextSize(float textSize) {
+        if (textSize != -1)
+            defaultContentTV.setTextSize(textSize);
+    }
+
+    public void setHeaderTextSize(float textSize) {
+        if (textSize != -1)
+            defaultHeaderTV.setTextSize(textSize);
     }
 
     private void inflateDefaultContent(Context context) {
@@ -162,10 +184,19 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void expand(boolean smoothAnimate) {
+        if (expandNotNecessary())
+            return;
         contentLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         headerLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         animateViews(contentLayout, headerLayout.getMeasuredHeight(), contentLayout.getMeasuredHeight()
                 , EXPANDING, smoothAnimate);
+    }
+
+    /**
+     * in case the default content was added and the text on
+     **/
+    private boolean expandNotNecessary() {
+        return defaultContentTV != null && (defaultContentTV.getText() == null || defaultContentTV.getText().toString().isEmpty());
     }
 
     private void collapse(boolean smoothAnimate) {
@@ -186,10 +217,7 @@ public class ExpandableLayout extends RelativeLayout {
                 }
                 view.getLayoutParams().height = animationType == EXPANDING ? (int) (initialHeight + (distance * interpolatedTime)) :
                         (int) (initialHeight - (distance * interpolatedTime));
-                contentLayout.requestLayout();
-
-                contentLayout.getLayoutParams().height = animationType == EXPANDING ? (int) (initialHeight + (distance * interpolatedTime)) :
-                        (int) (initialHeight - (distance * interpolatedTime));
+                view.requestLayout();
             }
 
             @Override
@@ -228,8 +256,8 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     public void setArrowDrawable(Drawable drawable) {
-        if (drawable != null && headerLayout != null && headerLayout.findViewById(R.id.headerIcon) != null)
-            ((ImageButton) headerLayout.findViewById(R.id.headerIcon)).setImageDrawable(drawable);
+        if (drawable != null && headerLayout != null && headerLayout.findViewById(R.id.arrow) != null)
+            ((ImageButton) headerLayout.findViewById(R.id.arrow)).setImageDrawable(drawable);
     }
 
 

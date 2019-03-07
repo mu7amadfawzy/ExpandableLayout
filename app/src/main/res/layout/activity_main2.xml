@@ -50,7 +50,9 @@
             android:background="#FAFAFA"
             android:clipChildren="false"
             android:orientation="vertical"
-            android:paddingBottom="20dp">
+            android:paddingBottom="20dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
             <widget.com.expandablelayout.ExpandableLayout
                 android:id="@+id/cutsom_expandable"

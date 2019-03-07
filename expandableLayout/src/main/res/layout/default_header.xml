@@ -3,14 +3,8 @@
     android:id="@+id/header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
-
-    <ImageButton
-        android:id="@+id/headerIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:visibility="gone" />
+    android:gravity="center_vertical"
+    android:padding="@dimen/_4sdp">
 
     <TextView
         android:id="@+id/headerTV"
@@ -18,20 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginStart="@dimen/_8sdp"
-        android:layout_toEndOf="@+id/headerIcon"
+        android:clickable="false"
         android:maxLength="39"
         android:maxLines="1"
         android:text="HEADER"
         android:textColor="@android:color/primary_text_light"
-        android:textSize="@dimen/_13sdp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/_13sdp" />
 
     <ImageButton
         android:id="@+id/arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/_18sdp"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="false"
         android:src="@drawable/arrow_down" />
