@@ -1,4 +1,4 @@
-package sample.com.expandedcardview;
+package sample.com.expanded_layout;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,9 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void addExpandable() {
         ExpandableLayout expandableLayout = new ExpandableLayout(this);
-        expandableLayout.setDefaultHeaderTitle("Added By Java");
-        expandableLayout.setDefaultContentTitle("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx");
-        expandableLayout.setDefaultContentTextColor(Color.RED);
+        expandableLayout.setDefaultHeader("Added By Java", Color.BLACK);
+        expandableLayout.setDefaultContent("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx", Color.BLUE);
         expandableLayout.setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
 
         container.addView(expandableLayout);

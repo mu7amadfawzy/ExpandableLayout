@@ -19,7 +19,7 @@ ext {
     //library name will be like -> publishedGroupId:artifact:libraryVersion
     publishedGroupId = 'com.widget'             //the ID you want to add in the 'implementation line'
     artifact = 'expandableLayout'               //the artifact you want to add in the 'implementation line'
-    libraryVersion = '1.2.1'
+    libraryVersion = '1.2.2'
     libraryDescription = 'An Android library that lets you create in a simple and fast Layout in which you can insert your custom layout and just expand and collapse without even writing a single Java/Kotlin line of code.'
 
     siteUrl = 'https://github.com/ma7madfawzy/ExpandableLayout'
@@ -45,6 +45,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
+    dataBinding {
+        enabled = true
+    }
 
     buildTypes {
         release {
@@ -61,12 +64,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation "com.intuit.sdp:sdp-android:1.0.+"
+    implementation "com.intuit.ssp:ssp-android:1.0.+"
 }
 group = publishedGroupId
 version = libraryVersion

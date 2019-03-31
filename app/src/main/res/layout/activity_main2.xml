@@ -82,6 +82,7 @@
                 app:duration="300"
                 app:header_color="@color/colorAccentDark"
                 app:header_padding="@dimen/_8sdp"
+                app:header_text_size="@dimen/_15sdp"
                 app:header_text_style="italic"
                 app:header_title="Header default Text sample" />
 

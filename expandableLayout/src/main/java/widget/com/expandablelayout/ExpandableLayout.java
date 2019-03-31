@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import widget.com.expandablecardview.R;
 
 import static widget.com.expandablelayout.AnimationUtils.COLLAPSING;
@@ -43,6 +45,7 @@ public class ExpandableLayout extends RelativeLayout {
     private Context context;
     private TextView defaultContentTV, defaultHeaderTV;
     private float header_text_size, content_text_size;
+    private int contentMeasuredHeight, headerMeasuredHeight;
 
     public ExpandableLayout(Context context) {
         super(context);
@@ -73,8 +76,8 @@ public class ExpandableLayout extends RelativeLayout {
         startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
         header_text_size = attributesArray.getDimension(R.styleable.ExpandableLayout_header_text_size, -1);
         content_text_size = attributesArray.getInt(R.styleable.ExpandableLayout_content_text_size, -1);
-        headerTextStyle = attributesArray.getInt(R.styleable.ExpandableLayout_header_text_style, Typeface.NORMAL);
-        contentTextStyle = attributesArray.getInt(R.styleable.ExpandableLayout_content_text_style, Typeface.NORMAL);
+        headerTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_header_text_style, Typeface.NORMAL));
+        contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_text_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
     }
@@ -90,6 +93,11 @@ public class ExpandableLayout extends RelativeLayout {
             toggle(false);
     }
 
+    private int getMeasuredHeight(View view) {
+        view.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        return view.getMeasuredHeight();
+    }
+
     private void inflateInnerViews(Context context) {
         if (headerLayoutRes == -1)
             inflateDefaultHeader(context);
@@ -103,7 +111,7 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void inflateDefaultHeader(Context context) {
-        headerLayout.addView(inflateView(context, R.layout.default_header));
+        inflateView(context, R.layout.default_header, headerLayout);
         arrowBtn = headerLayout.findViewById(R.id.arrow);
         defaultHeaderTV = (headerLayout.findViewById(R.id.headerTV));
         setDrawableBackground(arrowBtn, arrowIconRes);
@@ -111,42 +119,30 @@ public class ExpandableLayout extends RelativeLayout {
             return;
         String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_header_title);
         int headerTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_header_color, Color.BLACK);
-        setDefaultHeaderTitle(headerTxt, headerTextColor);
+        setDefaultHeader(headerTxt, headerTextColor, header_text_size, headerTextStyle);
         Drawable headerIcon = attributesArray.getDrawable(R.styleable.ExpandableLayout_header_icon);
         setArrowDrawable(headerIcon);
-        setHeaderTextSize(header_text_size);
-        setContentTextSize(content_text_size);
-        setHeaderTextStyle(getTypeFace(headerTextStyle));
         if (headerPadding != -1)
             headerLayout.setPadding(headerPadding, headerPadding, headerPadding, headerPadding);
-    }
-
-    public void setHeaderTextStyle(int typeface) {
-        defaultHeaderTV.setTypeface(Typeface.defaultFromStyle(typeface));
-    }
-
-    public void setContentTextSize(float textSize) {
-        if (textSize != -1)
-            defaultContentTV.setTextSize(textSize);
-    }
-
-    public void setHeaderTextSize(float textSize) {
-        if (textSize != -1)
-            defaultHeaderTV.setTextSize(textSize);
+        headerMeasuredHeight = getMeasuredHeight(headerLayout);
     }
 
     private void inflateDefaultContent(Context context) {
-        contentLayout.addView(inflateView(context, R.layout.default_content));
+        inflateView(context, R.layout.default_content, contentLayout);
         defaultContentTV = (contentLayout.findViewById(R.id.contentTV));
         if (attributesArray == null)
             return;
         String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_content_text);
-        defaultContentTV.setText(contentTxt);
         int contentTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_content_color, Color.BLACK);
-        setDefaultContentTitle(contentTxt, contentTextColor);
-        setContentTextStyle(getTypeFace(contentTextStyle));
+        setDefaultContent(contentTxt, contentTextColor, contentTextStyle, content_text_size);
         if (contentPadding != -1)
             headerLayout.setPadding(contentPadding, contentPadding, contentPadding, contentPadding);
+        contentMeasuredHeight = getMeasuredHeight(contentLayout);
+    }
+
+
+    public void setHeaderTextStyle(int typeface) {
+        defaultHeaderTV.setTypeface(Typeface.defaultFromStyle(typeface));
     }
 
     private void setContentTextStyle(int typeface) {
@@ -167,18 +163,19 @@ public class ExpandableLayout extends RelativeLayout {
 
     private void inflateHeader(Context context, int viewID) {
         headerLayout.removeAllViews();
-        headerLayout.addView(inflateView(context, viewID));
+        inflateView(context, viewID, headerLayout);
+        headerMeasuredHeight = getMeasuredHeight(headerLayout);
     }
 
     private void inflateContent(Context context, int viewID) {
         contentLayout.removeAllViews();
-        contentLayout.addView(inflateView(context, viewID));
+        inflateView(context, viewID, contentLayout);
+        contentMeasuredHeight = getMeasuredHeight(contentLayout);
     }
 
-    private View inflateView(Context context, int viewID) {
-        final View view = View.inflate(context, viewID, null);
-        view.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        return view;
+    private void inflateView(Context context, int viewID, ViewGroup root) {
+        DataBindingUtil.inflate(LayoutInflater.from(context),
+                viewID, root, true);
     }
 
     private void setDrawableBackground(ImageButton imageButton, Drawable drawable) {
@@ -204,17 +201,21 @@ public class ExpandableLayout extends RelativeLayout {
     private void startArrowRotation(int animationType) {
         if (arrowBtn == null)
             return;
-        RotateAnimation arrowAnimation = AnimationUtils.getInstance().getArrowAnimation(animationType, duration);
+        RotateAnimation arrowAnimation = AnimationUtils.getInstance()
+                .getArrowAnimation(animationType, duration);
         arrowBtn.startAnimation(arrowAnimation);
     }
 
     private void expand(boolean smoothAnimate) {
         if (expandNotNecessary())
             return;
-        contentLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        headerLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        animateViews(contentLayout, headerLayout.getMeasuredHeight(), contentLayout.getMeasuredHeight()
+        animateViews(contentLayout, 0, contentMeasuredHeight
                 , EXPANDING, smoothAnimate);
+    }
+
+    private void collapse(boolean smoothAnimate) {
+        animateViews(contentLayout, contentMeasuredHeight, contentMeasuredHeight,
+                COLLAPSING, smoothAnimate);
     }
 
     /**
@@ -222,12 +223,6 @@ public class ExpandableLayout extends RelativeLayout {
      **/
     private boolean expandNotNecessary() {
         return defaultContentTV != null && (defaultContentTV.getText() == null || defaultContentTV.getText().toString().isEmpty());
-    }
-
-    private void collapse(boolean smoothAnimate) {
-        contentLayout.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        animateViews(contentLayout, contentLayout.getMeasuredHeight(), contentLayout.getMeasuredHeight(),
-                COLLAPSING, smoothAnimate);
     }
 
     private void animateViews(final View view, final int initialHeight, final int distance, final int animationType, boolean smooth) {
@@ -285,38 +280,55 @@ public class ExpandableLayout extends RelativeLayout {
             ((ImageButton) headerLayout.findViewById(R.id.arrow)).setImageDrawable(drawable);
     }
 
-
-    public void setDefaultHeaderTitle(String title, int headerTextColor) {
-        setDefaultHeaderTitle(title);
-        setDefaultHeaderTextColor(headerTextColor);
-    }
-
-    public void setDefaultHeaderTextColor(int headerTextColor) {
+    public void setDefaultHeader(String title, int headerTextColor) {
         if (defaultHeaderTV != null) {
-            defaultHeaderTV.setTextColor(headerTextColor);
-        }
-    }
-
-    public void setDefaultHeaderTitle(String title) {
-        if (defaultHeaderTV != null) {
+            headerMeasuredHeight = getMeasuredHeight(headerLayout);
             defaultHeaderTV.setText(title);
+            setDefaultHeaderTextColor(headerTextColor);
         }
     }
 
-    public void setDefaultContentTitle(String title, int contentTextColor) {
-        setDefaultContentTitle(title);
-        setDefaultContentTextColor(contentTextColor);
+    private void setDefaultHeader(String title, int headerTextColor, float header_text_size, int headerTextStyle) {
+        if (defaultHeaderTV != null) {
+            setDefaultHeader(title, headerTextColor);
+            setHeaderTextSize(header_text_size);
+            setHeaderTextStyle(headerTextStyle);
+        }
     }
 
-    public void setDefaultContentTitle(String title) {
+    private void setDefaultContent(String title, int textColor, int contentTextStyle, float content_text_size) {
+        setDefaultContent(title, textColor);
+        setContentTextStyle(contentTextStyle);
+        setContentTextSize(content_text_size);
+    }
+
+    public void setDefaultContent(String title, int textColor) {
         if (defaultContentTV != null) {
             defaultContentTV.setText(title);
+            setDefaultContentTextColor(textColor);
+            contentMeasuredHeight = getMeasuredHeight(contentLayout);
         }
     }
 
     public void setDefaultContentTextColor(int contentTextColor) {
         if (defaultContentTV != null) {
             defaultContentTV.setTextColor(contentTextColor);
+        }
+    }
+
+    public void setContentTextSize(float textSize) {
+        if (textSize != -1)
+            defaultContentTV.setTextSize(textSize);
+    }
+
+    public void setHeaderTextSize(float textSize) {
+        if (textSize != -1)
+            defaultHeaderTV.setTextSize(textSize);
+    }
+
+    public void setDefaultHeaderTextColor(int headerTextColor) {
+        if (defaultHeaderTV != null) {
+            defaultHeaderTV.setTextColor(headerTextColor);
         }
     }
 

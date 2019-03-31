@@ -1,4 +1,4 @@
-package sample.com.expandedcardview
+package sample.com.expanded_layout
 
 import android.graphics.Color
 import android.os.Bundle
@@ -25,8 +25,8 @@ class Main2Activity : AppCompatActivity() {
 
     private fun addExpandable() {
         var expandableLayout = ExpandableLayout(this)
-        expandableLayout.setDefaultHeaderTitle("Added By Java")
-        expandableLayout.setDefaultContentTitle("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx")
+        expandableLayout.setDefaultHeader("Added By Java", Color.BLACK)
+        expandableLayout.setDefaultContent("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx", Color.BLUE)
         expandableLayout.setDefaultContentTextColor(Color.RED)
         expandableLayout.setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down))
 
@@ -44,7 +44,7 @@ class Main2Activity : AppCompatActivity() {
     private fun setListener() {
         expandableLayout.setOnExpandedListener { v, isExpanded ->
             Toast.makeText(this@Main2Activity
-                    , "isExpanded== " + isExpanded, Toast.LENGTH_SHORT).show()
+                    , "isExpanded== $isExpanded", Toast.LENGTH_SHORT).show()
         }
     }
 
