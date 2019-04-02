@@ -207,8 +207,8 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void expand(boolean smoothAnimate) {
-        if (expandNotNecessary())
-            return;
+//        if (expandNotNecessary())
+//            return;
         animateViews(contentLayout, 0, contentMeasuredHeight
                 , EXPANDING, smoothAnimate);
     }
