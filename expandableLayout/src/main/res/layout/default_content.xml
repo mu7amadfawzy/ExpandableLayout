@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+<layout>
 
-    <TextView
-        android:id="@+id/contentTV"
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:text="content default content default  content default content default content default content default content default content default content default content default content default content default content default content default content default content default content default content default "
-        android:textColor="@android:color/primary_text_light"
-        android:textSize="@dimen/_11sdp" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/contentTV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:text="content default content default  content default content default content default content default content default content default content default content default content default content default content default content default content default content default content default content default "
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="@dimen/_11sdp" />
+
+    </RelativeLayout>
+</layout>

@@ -16,10 +16,13 @@
         <attr name="content_layout" format="reference" />
         <attr name="header_text_size" format="dimension" />
         <attr name="content_text_size" format="dimension" />
+        <attr name="arrow_width" format="dimension" />
+        <attr name="arrow_height" format="dimension" />
         <attr name="header_text_style" />
         <attr name="content_text_style" />
         <attr name="duration" format="integer" />
         <attr name="startExpanded" format="boolean" />
+        <attr name="hideArrow" format="boolean" />
         <attr name="arrow_icon" format="reference" />
         <attr name="header_title" format="string" />
         <attr name="content_text" format="string" />
