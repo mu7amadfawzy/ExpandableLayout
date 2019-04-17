@@ -44,7 +44,6 @@ public class ExpandableLayout extends RelativeLayout {
     private boolean startExpanded;
     private Context context;
     private float header_text_size, content_text_size, arrow_width, arrow_height;
-    private int contentMeasuredHeight;
     private HeaderLayoutBinding headerLayoutBinding;
     private ExpandableLayoutBinding binding;
     private boolean hideArrow;
@@ -179,7 +178,6 @@ public class ExpandableLayout extends RelativeLayout {
         setDefaultContent(contentTxt, contentTextColor, contentTextStyle, content_text_size);
         if (contentPadding != -1)
             binding.headerLayout.setPadding(contentPadding, contentPadding, contentPadding, contentPadding);
-        contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
     }
 
     private int getTypeFace(int typeface) {
@@ -211,7 +209,6 @@ public class ExpandableLayout extends RelativeLayout {
     private void inflateContent(Context context, int viewID) {
         binding.contentLayout.removeAllViews();
         customContentBinding = inflateView(context, viewID, binding.contentLayout, true);
-        contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
     }
 
     private void onLayoutClicked(View v) {
@@ -249,7 +246,8 @@ public class ExpandableLayout extends RelativeLayout {
     private void expand(boolean smoothAnimate) {
 //        if (expandNotNecessary())
 //            return;
-        animateViews(binding.contentLayout, 0, contentMeasuredHeight
+//        contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
+        animateViews(binding.contentLayout, 0, getMeasuredHeight(binding.contentLayout)
                 , EXPANDING, smoothAnimate);
     }
 
@@ -277,6 +275,7 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void collapse(boolean smoothAnimate) {
+        int contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
         animateViews(binding.contentLayout, contentMeasuredHeight, contentMeasuredHeight,
                 COLLAPSING, smoothAnimate);
     }
@@ -339,7 +338,6 @@ public class ExpandableLayout extends RelativeLayout {
     public void setDefaultContent(String title, int textColor) {
         defaultContentBinding.setTitle(title);
         setDefaultContentTextColor(textColor);
-        contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
     }
 
     public void setDefaultContentTextColor(int contentTextColor) {
