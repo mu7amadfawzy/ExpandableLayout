@@ -49,6 +49,7 @@ public class ExpandableLayout extends RelativeLayout {
     private ExpandableLayoutBinding binding;
     private boolean hideArrow;
     private DefaultContentBinding defaultContentBinding;
+    private ViewDataBinding customHeaderBinding, customContentBinding;
 
     public ExpandableLayout(Context context) {
         super(context);
@@ -203,13 +204,13 @@ public class ExpandableLayout extends RelativeLayout {
 
     private void inflateHeader(Context context, int viewID) {
         headerLayoutBinding.headerLayout.removeAllViews();
-        inflateView(context, viewID, headerLayoutBinding.headerLayout, true);
+        customHeaderBinding = inflateView(context, viewID, headerLayoutBinding.headerLayout, true);
         headerLayoutBinding.setCustomHeader(true);
     }
 
     private void inflateContent(Context context, int viewID) {
         binding.contentLayout.removeAllViews();
-        inflateView(context, viewID, binding.contentLayout, true);
+        customContentBinding = inflateView(context, viewID, binding.contentLayout, true);
         contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
     }
 
@@ -378,6 +379,14 @@ public class ExpandableLayout extends RelativeLayout {
 
     public View getContentLayoutView() {
         return binding.contentLayout;
+    }
+
+    public ViewDataBinding getHeaderLayoutBinding() {
+        return customHeaderBinding;
+    }
+
+    public ViewDataBinding getContentLayoutBinding() {
+        return customContentBinding;
     }
 
     public interface OnExpandedListener {
