@@ -3,7 +3,7 @@
 
 An Android library that lets you create an expandable layout in a simple and easy way in which you can use the default header and content OR pass your custom layout and just expand and collapse magic is all ready.
 
-![demo](images/demo.gif)
+![simple](images/demo.mp4)
 
 ## Quick Setup
 
