@@ -3,7 +3,7 @@
 
 An Android library that lets you create an expandable layout in a simple and easy way in which you can use the default header and content OR pass your custom layout and just expand and collapse magic is all ready.
 
-![simple](images/demo.gif)
+![sample](images/demo.gif)
 
 ## Quick Setup
 
@@ -37,6 +37,10 @@ implementation  'com.widget:expandableLayout:1+'
  app:content_text="Content default Text Sample"
  app:content_color="@color/colorPrimaryDark"
  app:duration="300"
+ app:hideArrow="true"
+ app:header_padding="16dp"
+ app:content_padding="10dp"
+ app:startExpanded="true"
  app:header_title="Header default Text sample"
  app:header_color="@color/colorAccentDark" /> 
 
