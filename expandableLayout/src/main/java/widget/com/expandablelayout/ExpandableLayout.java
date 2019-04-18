@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -137,7 +138,7 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void setParams(View view, float width, float height) {
-        RelativeLayout.LayoutParams params = (LayoutParams) view.getLayoutParams();
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         if (width != -1)
             params.width = Math.round(width);
         if (height != -1)
@@ -163,8 +164,6 @@ public class ExpandableLayout extends RelativeLayout {
         String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_header_title);
         int headerTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_header_color, Color.BLACK);
         setDefaultHeader(headerTxt, headerTextColor, header_text_size, headerTextStyle);
-        Drawable headerIcon = attributesArray.getDrawable(R.styleable.ExpandableLayout_header_icon);
-        setArrowDrawable(headerIcon);
         if (headerPadding != -1)
             binding.headerLayout.setPadding(headerPadding, headerPadding, headerPadding, headerPadding);
     }
@@ -244,9 +243,6 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void expand(boolean smoothAnimate) {
-//        if (expandNotNecessary())
-//            return;
-//        contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
         animateViews(binding.contentLayout, 0, getMeasuredHeight(binding.contentLayout)
                 , EXPANDING, smoothAnimate);
     }

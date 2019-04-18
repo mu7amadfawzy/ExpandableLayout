@@ -107,6 +107,18 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:background="#000" />
+
+            <widget.com.expandablelayout.ExpandableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:arrow_icon="@drawable/ic_arrow_downward"
+                app:content_color="@color/colorAccentDark"
+                app:content_text="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
+                app:content_text_style="bold"
+                app:header_color="@color/colorPrimary"
+                app:header_padding="@dimen/_16sdp"
+                app:header_text_style="italic"
+                app:header_title="Another Header Text Sample" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
