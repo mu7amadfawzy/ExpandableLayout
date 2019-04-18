@@ -115,6 +115,7 @@
                 app:content_color="@color/colorAccentDark"
                 app:content_text="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:content_text_style="bold"
+                app:hideArrow="true"
                 app:header_color="@color/colorPrimary"
                 app:header_padding="@dimen/_16sdp"
                 app:header_text_style="italic"

@@ -108,8 +108,8 @@ public class ExpandableLayout extends RelativeLayout {
         setDrawableBackground(headerLayoutBinding.arrow, arrowIconRes);
         binding.headerLayout.setOnClickListener(this::onLayoutClicked);
         inflateInnerViews(context);
-        if (!startExpanded)
-            toggle(false);
+        if (startExpanded) startArrowRotation(EXPANDING, 0);
+        else toggle(false);
     }
 
     public void setArrowWidthHeight(float arrow_width, float arrow_height) {
@@ -236,7 +236,7 @@ public class ExpandableLayout extends RelativeLayout {
         }
     }
 
-    private void startArrowRotation(int animationType) {
+    private void startArrowRotation(int animationType, Integer duration) {
         RotateAnimation arrowAnimation = AnimationUtils.getInstance()
                 .getArrowAnimation(animationType, duration);
         headerLayoutBinding.arrow.startAnimation(arrowAnimation);
@@ -306,7 +306,7 @@ public class ExpandableLayout extends RelativeLayout {
         animation.setDuration(smooth ? duration : 0);
 
         startAnimation(animation);
-        startArrowRotation(animationType);
+        startArrowRotation(animationType, duration);
     }
 
     public void setArrowDrawable(Drawable drawable) {
