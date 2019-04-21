@@ -33,16 +33,32 @@ implementation  'com.widget:expandableLayout:1+'
 <widget.com.expandablelayout.ExpandableLayout
  android:layout_width="match_parent"
  android:layout_height="wrap_content"
- app:arrow_icon="@drawable/arrow_down"
  app:content_text="Content default Text Sample"
  app:content_color="@color/colorPrimaryDark"
- app:duration="300"
+  <!--expand/collabse duration ,default 300-->
+ app:duration="400"
+  <!--default false-->
  app:hideArrow="true"
+ app:arrow_icon="@drawable/arrow_down"
  app:header_padding="16dp"
  app:content_padding="10dp"
+ <!--default false-->
  app:startExpanded="true"
+ <!--use your own custom layout-->
+ app:content_layout="@layout/custom_content"
+ app:header_layout="@layout/layout_expandable_header"
+ <!--Or use default layout which is a TextView-->
  app:header_title="Header default Text sample"
- app:header_color="@color/colorAccentDark" /> 
+ app:content_text="Content Text Sample"
+ <!--fonts is the folder name in Assets-->
+ app:header_font="fonts/fontName.ttf"
+ app:content_font="fonts/fontName.ttf"'
+ app:header_color="@color/colorAccentDark"
+ app:content_color="@color/colorAccent"
+ app:header_padding="10dp"
+ app:content_padding="14dp"
+ app:header_text_style="italic"
+ app:content_text_style="bold"/> 
 
 ```
 #### You can use the default HeaderTV and ContentTV
@@ -112,6 +128,17 @@ expandableLayout.setContentLayout(R.layout.custom_content)
 ##### Adding the layout to container view
 ````
 container.addView(expandableLayout)
+````
+##### Then you can trigger your custom layouts using:
+###### For DataBinding lovers 
+````
+expandable.getHeaderLayoutBinding();//returns ViewDataBinding which can be cast to your layout name
+expandable.getContentLayoutBinding();
+````
+###### Or just a simple view
+````
+expandable.getHeaderLayoutView();
+expandable.getContentLayoutView();
 ````
 
 ### Happy Coding
