@@ -33,8 +33,6 @@ implementation  'com.widget:expandableLayout:1+'
 <widget.com.expandablelayout.ExpandableLayout
  android:layout_width="match_parent"
  android:layout_height="wrap_content"
- app:content_text="Content default Text Sample"
- app:content_color="@color/colorPrimaryDark"
  <!--expand/collabse duration ,default 300-->
  app:duration="400"
  <!--default false-->
