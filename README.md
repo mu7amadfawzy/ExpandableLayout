@@ -35,9 +35,9 @@ implementation  'com.widget:expandableLayout:1+'
  android:layout_height="wrap_content"
  app:content_text="Content default Text Sample"
  app:content_color="@color/colorPrimaryDark"
-  <!--expand/collabse duration ,default 300-->
+ <!--expand/collabse duration ,default 300-->
  app:duration="400"
-  <!--default false-->
+ <!--default false-->
  app:hideArrow="true"
  app:arrow_icon="@drawable/arrow_down"
  app:header_padding="16dp"
