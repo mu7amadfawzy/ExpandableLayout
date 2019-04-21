@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,18 +19,40 @@
         <variable
             name="hideArrow"
             type="boolean" />
-        android:layout_toEndOf="@id/arrow"
 
         <variable
             name="drawable"
             type="android.graphics.drawable.Drawable" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
+
+        <FrameLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            bind:visibility="@{customHeader}" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/headerTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:clickable="false"
+            android:maxLines="1"
+            android:text="@{title}"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="13dp"
+            bind:fontPath="@{fontPath}"
+            bind:visibility="@{!customHeader}" />
 
         <ImageButton
             android:id="@+id/arrow"
@@ -40,42 +63,8 @@
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="false"
             android:gravity="end"
-            bind:layout_constraintBottom_toBottomOf="parent"
-            bind:layout_constraintStart_toStartOf="parent"
-            bind:layout_constraintTop_toTopOf="parent"
             bind:src="@{drawable}"
-            bind:visibility="@{!hideArrow}" />
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            bind:layout_constraintBottom_toBottomOf="parent"
-            bind:layout_constraintEnd_toEndOf="parent"
-            bind:layout_constraintStart_toEndOf="@id/arrow"
-            bind:layout_constraintTop_toTopOf="parent">
-
-            <FrameLayout
-                android:id="@+id/header_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                bind:visibility="@{customHeader}" />
-
-            <me.grantland.widget.AutofitTextView
-                android:id="@+id/headerTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:clickable="false"
-                android:maxLines="1"
-                android:text="@{title}"
-                android:textColor="@android:color/primary_text_light"
-                android:textSize="13dp"
-                bind:fontPath="@{fontPath}"
-                bind:visibility="@{!customHeader}" />
-        </RelativeLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            bind:visibility="@{!hideArrow}"
+            tools:src="@drawable/arrow_down" />
+    </RelativeLayout>
 </layout>

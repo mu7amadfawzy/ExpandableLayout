@@ -15,7 +15,6 @@ import android.view.animation.Transformation;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import widget.com.expandablecardview.R;
@@ -129,7 +128,7 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     private void setParams(View view, float width, float height) {
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
         if (width != -1)
             params.width = Math.round(width);
         if (height != -1)

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         ExpandableLayout expandableLayout = new ExpandableLayout(this);
         expandableLayout.setHeaderLayout(R.layout.layout_expandable_header);
         expandableLayout.setContentLayout(R.layout.layout_expandable_content);
-
+        expandableLayout.setArrowDrawable(getDrawable(R.drawable.ic_arrow_downward));
         container.addView(expandableLayout);
     }
 
