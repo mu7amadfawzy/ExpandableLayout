@@ -13,11 +13,9 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import widget.com.expandablecardview.R;
@@ -49,6 +47,7 @@ public class ExpandableLayout extends RelativeLayout {
     private ExpandableLayoutBinding binding;
     private boolean hideArrow;
     private DefaultContentBinding defaultContentBinding;
+    private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
 
     public ExpandableLayout(Context context) {
@@ -71,20 +70,12 @@ public class ExpandableLayout extends RelativeLayout {
         initViews(context);
     }
 
-    @BindingAdapter({"bind:src"})
-    public static void setImageBackground(ImageView view, Drawable drawable) {
-        view.setImageDrawable(drawable);
-    }
-
-    @BindingAdapter("bind:visibility")
-    public static void visibility(View view, boolean visible) {
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
     private void initAttributes(Context context, AttributeSet attrs) {
         attributesArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
         headerLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_header_layout, -1);
         contentLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_content_layout, -1);
+        headerFontPath = attributesArray.getString(R.styleable.ExpandableLayout_header_font);
+        contentFontPath = attributesArray.getString(R.styleable.ExpandableLayout_content_font);
         duration = attributesArray.getInt(R.styleable.ExpandableLayout_duration, getContext().getResources().getInteger(android.R.integer.config_shortAnimTime));
         arrowIconRes = attributesArray.getDrawable(R.styleable.ExpandableLayout_arrow_icon);
         startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
@@ -166,6 +157,9 @@ public class ExpandableLayout extends RelativeLayout {
         setDefaultHeader(headerTxt, headerTextColor, header_text_size, headerTextStyle);
         if (headerPadding != -1)
             binding.headerLayout.setPadding(headerPadding, headerPadding, headerPadding, headerPadding);
+        if (headerFontPath != null)
+            headerLayoutBinding.setFontPath(headerFontPath);
+
     }
 
     private void inflateDefaultContent(Context context) {
@@ -177,6 +171,8 @@ public class ExpandableLayout extends RelativeLayout {
         setDefaultContent(contentTxt, contentTextColor, contentTextStyle, content_text_size);
         if (contentPadding != -1)
             binding.headerLayout.setPadding(contentPadding, contentPadding, contentPadding, contentPadding);
+        if (headerFontPath != null)
+            defaultContentBinding.setFontPath(contentFontPath);
     }
 
     private int getTypeFace(int typeface) {

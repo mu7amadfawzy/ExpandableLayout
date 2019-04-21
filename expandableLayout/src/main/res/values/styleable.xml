@@ -26,6 +26,8 @@
         <attr name="arrow_icon" format="reference" />
         <attr name="header_title" format="string" />
         <attr name="content_text" format="string" />
+        <attr name="content_font" format="string" />
+        <attr name="header_font" format="string" />
         <attr name="header_color" format="color" />
         <attr name="content_color" format="color" />
         <attr name="header_padding" format="dimension" />
