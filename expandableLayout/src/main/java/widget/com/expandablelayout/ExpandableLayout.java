@@ -237,9 +237,19 @@ public class ExpandableLayout extends RelativeLayout {
         headerLayoutBinding.arrow.startAnimation(arrowAnimation);
     }
 
-    private void expand(boolean smoothAnimate) {
+    public void expand(boolean smoothAnimate) {
+        expand(0, smoothAnimate);
+    }
+
+    private void expand(int initialHeight, boolean smoothAnimate) {
         animateViews(binding.contentLayout, 0, getMeasuredHeight(binding.contentLayout)
                 , EXPANDING, smoothAnimate);
+    }
+
+    public void refresh() {
+        if (isExpanded)
+            expand(binding.contentLayout.getMeasuredHeight(), false);
+        else collapse(false);
     }
 
     private void updateListener(View view, int animationType) {
@@ -265,7 +275,7 @@ public class ExpandableLayout extends RelativeLayout {
         inflateContent(context, layoutRes);
     }
 
-    private void collapse(boolean smoothAnimate) {
+    public void collapse(boolean smoothAnimate) {
         int contentMeasuredHeight = getMeasuredHeight(binding.contentLayout);
         animateViews(binding.contentLayout, contentMeasuredHeight, contentMeasuredHeight,
                 COLLAPSING, smoothAnimate);
