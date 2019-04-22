@@ -12,7 +12,7 @@ An Android library that lets you create an expandable layout in a simple and eas
 #### Using Gradle
 ```
 dependencies {
-implementation  'com.widget:expandableLayout:1+'
+implementation  'com.widget:expandableLayout:2+'
 }
 ```
 #### Using Maven
