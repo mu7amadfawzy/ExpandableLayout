@@ -144,7 +144,7 @@ expandable.getContentLayoutView();
 ## Authors
 
 * [Mohammed Fawzy](https://github.com/ma7madfawzy)
-* [Ali Gamal](https://github.com/DevAliGamal2030)
+* [Ali Gamal](https://github.com/aligamal-dev)
 * [Muhammad Noamany](https://github.com/muhammadnomany25)
 
 
