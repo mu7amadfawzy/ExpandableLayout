@@ -21,12 +21,14 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
+                android:onClick="onNotificationsClicked"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/mess"
-                app:layout_collapseMode="pin"
-                app:layout_collapseParallaxMultiplier="0.7" />
+                app:layout_collapseMode="pin" />
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/main_toolbar"
@@ -59,8 +61,7 @@
                 app:arrow_icon="@drawable/ic_arrow_downward"
                 app:content_layout="@layout/layout_expandable_content"
                 app:duration="300"
-                app:header_layout="@layout/layout_expandable_header"
-                app:startExpanded="true" />
+                app:header_layout="@layout/layout_expandable_header" />
 
             <View
                 android:layout_width="match_parent"
@@ -77,9 +78,12 @@
                 app:arrow_icon="@drawable/arrow_down2"
                 app:arrow_width="40dp"
                 app:content_color="@color/colorPrimaryDark"
-                app:content_text="Content default Text Sample :: using content default Text:: using content default Text:: using content default Text"
+                app:content_text="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:duration="300"
+                app:header_font="fonts/Cairo-SemiBold.ttf"
+                app:header_padding="@dimen/_16sdp"
                 app:header_color="@color/colorAccentDark"
+                app:header_text_style="italic"
                 app:header_title="Header default Text sample" />
 
             <View
@@ -98,8 +102,7 @@
                 app:content_layout="@layout/passengers"
                 app:duration="300"
                 app:header_color="@color/colorPrimaryDark"
-                app:header_title="passengers"
-                app:startExpanded="true" />
+                app:header_title="passengers" />
 
             <View
                 android:layout_width="match_parent"
@@ -119,6 +122,7 @@
                 app:header_color="@color/colorPrimary"
                 app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_padding="@dimen/_16sdp"
+                app:startExpanded="true"
                 app:header_text_style="italic"
                 app:header_title="Another Header Text Sample" />
         </LinearLayout>

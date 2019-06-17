@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import sample.com.expanded_layout.notifications.NotificationsActivity;
 import widget.com.expandablelayout.ExpandableLayout;
 import widget.com.expandedcardview.R;
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addExpandable() {
         ExpandableLayout expandableLayout = new ExpandableLayout(this);
-        expandableLayout.setDefaultHeader("Added By Java", Color.BLACK);
+        expandableLayout.setHeaderTitle("Added By Java", Color.BLACK);
         expandableLayout.setDefaultContent("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx", Color.BLUE);
         expandableLayout.setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addCustomExpandable() {
         ExpandableLayout expandableLayout = new ExpandableLayout(this);
-        expandableLayout.setHeaderLayout(R.layout.layout_expandable_header);
+        expandableLayout.setHeaderTitle(R.layout.layout_expandable_header);
         expandableLayout.setContentLayout(R.layout.layout_expandable_content);
         expandableLayout.setArrowDrawable(getDrawable(R.drawable.ic_arrow_downward));
         container.addView(expandableLayout);
@@ -50,5 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "isExpanded== " + isExpanded, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void onNotificationsClicked(View view) {
+        NotificationsActivity.start(this);
     }
 }
