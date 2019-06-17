@@ -30,7 +30,7 @@
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include
@@ -59,6 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:gravity="top|start"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:text="@{contentText}"
                 android:textColor="@android:color/primary_text_light"
                 android:textSize="12sp"

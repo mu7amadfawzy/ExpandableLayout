@@ -78,7 +78,7 @@ public class ExpandableLayout extends RelativeLayout {
         arrow_width = attributesArray.getDimension(R.styleable.ExpandableLayout_arrow_width, -1);
         arrow_height = attributesArray.getDimension(R.styleable.ExpandableLayout_arrow_height, -1);
         hideArrow = attributesArray.getBoolean(R.styleable.ExpandableLayout_hideArrow, false);
-        content_text_size = attributesArray.getInt(R.styleable.ExpandableLayout_content_text_size, -1);
+        content_text_size = attributesArray.getDimension(R.styleable.ExpandableLayout_content_text_size, -1);
         headerTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_header_text_style, Typeface.NORMAL));
         contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_text_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
@@ -94,7 +94,7 @@ public class ExpandableLayout extends RelativeLayout {
         binding.headerLayout.getRoot().setOnClickListener(this::onHeaderClicked);
         inflateInnerViews(context);
         if (startExpanded) startArrowRotation(EXPANDING, 0);
-        else toggle(false);
+        else collapse(false);
     }
 
     public void setArrowWidthHeight(float arrow_width, float arrow_height) {
@@ -102,6 +102,14 @@ public class ExpandableLayout extends RelativeLayout {
         this.arrow_height = arrow_height;
         setArrowParams();
     }
+
+//    private int getMeasuredHeight(ViewGroup view) {
+//        int height = 0;
+//        for (int i = 0; i < view.getChildCount(); i++) {
+//            height += getMeasuredHeight(view.getChildAt(i));
+//        }
+//        return height;
+//    }
 
     private int getMeasuredHeight(View view) {
         view.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -260,7 +268,7 @@ public class ExpandableLayout extends RelativeLayout {
         else collapse(smoothAnimate);
     }
 
-    private View getContentView() {
+    private ViewGroup getContentView() {
         return binding.contentContainer;
     }
 
@@ -343,6 +351,7 @@ public class ExpandableLayout extends RelativeLayout {
 
     public void setContent(String title) {
         binding.setContentText(title);
+        binding.contentTV.setText(title);
     }
 
     public void setDefaultContentTextColor(int contentTextColor) {

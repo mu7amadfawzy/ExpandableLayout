@@ -26,6 +26,7 @@
                 app:content_color="@color/black"
                 app:content_text="bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla balbla bla bal bla bla balbla bla balbla bla balbla bla bal bla bla bal bla bla bal bla bla bal bla bla bal  bla bla bal bla bla balbla bla bal bla bla bal bla bla balbla bla balbla bla balbla bla balbla bla balbla bla balbla bla bal"
                 app:duration="500"
+                app:content_text_size="@dimen/_8ssp"
                 app:header_color="@color/green"
                 app:header_padding="@dimen/_7sdp"
                 app:header_title="Header"
