@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -216,6 +217,19 @@ public class ExpandableLayout extends RelativeLayout {
         binding.setDefaultContent(false);
         binding.contentLayout.removeAllViews();
         customContentBinding = inflateView(context, viewID, binding.contentLayout, true);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        expandedPos = -1;
+        Log.e("LogTag", "onDetachedFromWindow");
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        Log.e("LogTag", "onFinishInflate");
     }
 
     private void onHeaderClicked(View v) {
