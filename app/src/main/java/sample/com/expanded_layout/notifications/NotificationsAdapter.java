@@ -71,10 +71,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         ViewHolder(NotificationRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
         }
 
         public void bind(int position) {
-            binding.expandable.setRecyclerLayoutManager((LinearLayoutManager) recyclerView.getLayoutManager(), getAdapterPosition());
+            binding.expandable.setRecyclerItem((LinearLayoutManager) recyclerView.getLayoutManager(), getAdapterPosition());
         }
 
         @Override

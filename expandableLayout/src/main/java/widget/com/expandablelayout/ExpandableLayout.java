@@ -221,11 +221,6 @@ public class ExpandableLayout extends RelativeLayout {
         else collapse(smoothAnimate);
     }
 
-    public void setRecyclerLayoutManager(LinearLayoutManager linearLayoutManager, int itemPosition) {
-        this.linearLayoutManager = linearLayoutManager;
-        this.itemPosition = itemPosition;
-        checkItemState(itemPosition);
-    }
 
     public void checkItemState(int itemPosition) {
         if (itemPosition == expandedPos && !isExpanded)
@@ -285,6 +280,10 @@ public class ExpandableLayout extends RelativeLayout {
         startArrowRotation(animationType, duration);
     }
 
+    /**
+     * used for recyclerView of expandable items
+     * to handle one-expanded per time case by passing by all visible items in layoutManger and collapse it
+     **/
     private void checkRecyclerCase() {
         if (linearLayoutManager == null || !isExpanded)
             return;
@@ -295,6 +294,26 @@ public class ExpandableLayout extends RelativeLayout {
                 expandableLayout.collapse(false);
         }
     }
+
+    private void updateListener(View view, int animationType) {
+        if (listener != null) {
+            if (animationType == EXPANDING) {
+                listener.onExpandChanged(view, true);
+            } else {//in case it is getting collapsed by attribute startExpanded then updating listener isn't required
+                if (!startExpanded)
+                    startExpanded = true;
+                else
+                    listener.onExpandChanged(view, false);
+            }
+        }
+    }
+
+    private void startArrowRotation(int animationType, Integer duration) {
+        RotateAnimation arrowAnimation = AnimationUtils.getInstance()
+                .getRotateAnimation(animationType, duration);
+        binding.headerLayout.arrow.startAnimation(arrowAnimation);
+    }
+
 
     private ViewGroup getContentView() {
         return binding.contentContainer;
@@ -310,25 +329,6 @@ public class ExpandableLayout extends RelativeLayout {
         if (drawable != null && imageButton != null) {
             imageButton.setVisibility(VISIBLE);
             imageButton.setBackground(drawable);
-        }
-    }
-
-    private void startArrowRotation(int animationType, Integer duration) {
-        RotateAnimation arrowAnimation = AnimationUtils.getInstance()
-                .getArrowAnimation(animationType, duration);
-        binding.headerLayout.arrow.startAnimation(arrowAnimation);
-    }
-
-    private void updateListener(View view, int animationType) {
-        if (listener != null) {
-            if (animationType == EXPANDING) {
-                listener.onExpandChanged(view, true);
-            } else {//in case it is getting collapsed by attribute startExpanded then updating listener isn't required
-                if (!startExpanded)
-                    startExpanded = true;
-                else
-                    listener.onExpandChanged(view, false);
-            }
         }
     }
 
@@ -385,6 +385,16 @@ public class ExpandableLayout extends RelativeLayout {
     public void setContentTextSize(float textSize) {
         if (textSize != -1)
             binding.contentTV.setTextSize(textSize);
+    }
+
+    /**
+     * used for recyclerView of expandable items
+     * to handle one-expanded per time case
+     **/
+    public void setRecyclerItem(LinearLayoutManager linearLayoutManager, int itemPosition) {
+        this.linearLayoutManager = linearLayoutManager;
+        this.itemPosition = itemPosition;
+        checkItemState(itemPosition);
     }
 
     @Override
