@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -20,6 +21,9 @@ import widget.com.expandedcardview.databinding.NotificationRowBinding;
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
     private List<NotificationsDM> dataList;
     private LayoutInflater layoutInflater;
+    private NotificationRowBinding binding;
+    private RecyclerView recyclerView;
+    private int expandedPos = -1;
 
     public NotificationsAdapter(List<NotificationsDM> dataList) {
         this.dataList = dataList;
@@ -29,7 +33,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (layoutInflater == null)
             layoutInflater = LayoutInflater.from(parent.getContext());
-        NotificationRowBinding binding = DataBindingUtil.inflate(layoutInflater,
+        binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.notification_row, parent, false);
         return new ViewHolder(binding);
     }
@@ -40,13 +44,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
+
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
     @Override
     public int getItemCount() {
-        return 16;//dataList.size();
+        return 60;//dataList.size();
     }
 
     public void setDataList(List<NotificationsDM> faqs) {
@@ -64,9 +74,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         }
 
         public void bind(int position) {
-            binding.expandable.refresh();
-//            binding.setDataModel(dataList.get(getAdapterPosition()));
-//            binding.setIsArabic(Constants.isArabic);
+            binding.expandable.setRecyclerLayoutManager((LinearLayoutManager) recyclerView.getLayoutManager(), getAdapterPosition());
         }
 
         @Override

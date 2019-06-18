@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import widget.com.expandablecardview.R;
 import widget.com.expandablecardview.databinding.ExpandableLayoutBinding;
@@ -29,21 +30,21 @@ import static widget.com.expandablelayout.AnimationUtils.EXPANDING;
  * ma7madfawzy@gmail.com
  */
 public class ExpandableLayout extends RelativeLayout {
-    private boolean isExpanded = true;
     private Integer duration = 300;
     private Animation animation;
     private ExpandableLayout.OnExpandedListener listener;
     private int headerLayoutRes = -1, contentLayoutRes = -1, headerTextStyle = Typeface.NORMAL, contentTextStyle = Typeface.NORMAL;
-    private int headerPadding = -1, contentPadding = -1;
+    private static int expandedPos = -1;
+    private int itemPosition, headerPadding = -1, contentPadding = -1;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
-    private boolean startExpanded;
+    private boolean isExpanded = true, startExpanded, hideArrow;
     private Context context;
     private float header_text_size, content_text_size, arrow_width, arrow_height;
     private ExpandableLayoutBinding binding;
-    private boolean hideArrow;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
+    private LinearLayoutManager linearLayoutManager;
 
     public ExpandableLayout(Context context) {
         super(context);
@@ -103,16 +104,11 @@ public class ExpandableLayout extends RelativeLayout {
         setArrowParams();
     }
 
-//    private int getMeasuredHeight(ViewGroup view) {
-//        int height = 0;
-//        for (int i = 0; i < view.getChildCount(); i++) {
-//            height += getMeasuredHeight(view.getChildAt(i));
-//        }
-//        return height;
-//    }
-
     private int getMeasuredHeight(View view) {
-        view.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
         return view.getMeasuredHeight();
     }
 
@@ -215,6 +211,29 @@ public class ExpandableLayout extends RelativeLayout {
         toggle(true);
     }
 
+    public void refresh() {
+        refresh(false);
+    }
+
+    public void refresh(boolean smoothAnimate) {
+        if (isExpanded)
+            expand(getContentView().getMeasuredHeight(), smoothAnimate);
+        else collapse(smoothAnimate);
+    }
+
+    public void setRecyclerLayoutManager(LinearLayoutManager linearLayoutManager, int itemPosition) {
+        this.linearLayoutManager = linearLayoutManager;
+        this.itemPosition = itemPosition;
+        checkItemState(itemPosition);
+    }
+
+    public void checkItemState(int itemPosition) {
+        if (itemPosition == expandedPos && !isExpanded)
+            expand(false);
+        else if (itemPosition != expandedPos && isExpanded)
+            collapse(false);
+    }
+
     public void toggle(boolean smoothAnimate) {
         if (isExpanded)
             collapse(smoothAnimate);
@@ -223,8 +242,11 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     public void collapse(boolean smoothAnimate) {
-        int contentMeasuredHeight = getMeasuredHeight(getContentView());
-        animateViews(getContentView(), contentMeasuredHeight, contentMeasuredHeight,
+        collapse(smoothAnimate, getContentView().getMeasuredHeight());
+    }
+
+    private void collapse(boolean smoothAnimate, int contentHeight) {
+        animateViews(getContentView(), contentHeight, contentHeight,
                 COLLAPSING, smoothAnimate);
     }
 
@@ -239,6 +261,7 @@ public class ExpandableLayout extends RelativeLayout {
 
     private void animateViews(final View view, final int initialHeight, final int distance, final int animationType, boolean smooth) {
         isExpanded = animationType == EXPANDING;
+        checkRecyclerCase();
         animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
@@ -262,10 +285,15 @@ public class ExpandableLayout extends RelativeLayout {
         startArrowRotation(animationType, duration);
     }
 
-    public void refresh(boolean smoothAnimate) {
-        if (isExpanded)
-            expand(getContentView().getMeasuredHeight(), smoothAnimate);
-        else collapse(smoothAnimate);
+    private void checkRecyclerCase() {
+        if (linearLayoutManager == null || !isExpanded)
+            return;
+        expandedPos = itemPosition;
+        for (int i = linearLayoutManager.findFirstVisibleItemPosition(); i < linearLayoutManager.findLastVisibleItemPosition(); i++) {
+            ExpandableLayout expandableLayout = linearLayoutManager.findViewByPosition(i).findViewById(getId());
+            if (expandableLayout != this && expandableLayout.isExpanded())
+                expandableLayout.collapse(false);
+        }
     }
 
     private ViewGroup getContentView() {
@@ -289,10 +317,6 @@ public class ExpandableLayout extends RelativeLayout {
         RotateAnimation arrowAnimation = AnimationUtils.getInstance()
                 .getArrowAnimation(animationType, duration);
         binding.headerLayout.arrow.startAnimation(arrowAnimation);
-    }
-
-    public void refresh() {
-        refresh(false);
     }
 
     private void updateListener(View view, int animationType) {
@@ -401,10 +425,12 @@ public class ExpandableLayout extends RelativeLayout {
         return customContentBinding;
     }
 
+
     public interface OnExpandedListener {
 
         void onExpandChanged(View v, boolean isExpanded);
 
     }
+
 }
 
