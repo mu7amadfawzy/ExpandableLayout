@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import widget.com.expandablelayout.ExpandableLayout;
 import widget.com.expandedcardview.R;
 import widget.com.expandedcardview.databinding.NotificationRowBinding;
 
@@ -47,6 +48,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
+        ExpandableLayout.onAttachedToRecycler();
     }
 
     @Override
