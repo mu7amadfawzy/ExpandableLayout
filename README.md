@@ -141,7 +141,7 @@ expandable.getHeaderLayoutView();
 expandable.getContentLayoutView();
 ````
 ### 2.3 In RecyclerView:
-//In order to enable one expanded per time in recyclerViewAdaper.onBind() call ```setRecyclerItem(linearLayoutManager,itemPosition)``` with the RecyclerView's layoutManger(weather ```GridLayoutManager``` or ```LinearLayoutManager```)
+##### In order to enable one expanded per time in recyclerViewAdaper.onBind() call ``` setRecyclerItem(linearLayoutManager,itemPosition)``` with the RecyclerView's layoutManger(weather ```GridLayoutManager``` or ```LinearLayoutManager```)
 ````
 expandable.setRecyclerItem(linearLayoutManager, getAdapterPosition());
 ````
