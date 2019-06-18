@@ -35,12 +35,12 @@ public class ExpandableLayout extends RelativeLayout {
     private ExpandableLayout.OnExpandedListener listener;
     private int headerLayoutRes = -1, contentLayoutRes = -1, headerTextStyle = Typeface.NORMAL, contentTextStyle = Typeface.NORMAL;
     private static int expandedPos = -1;
-    private int itemPosition, headerPadding = -1, contentPadding = -1;
+    private int itemPosition;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
     private boolean isExpanded = true, startExpanded, hideArrow;
     private Context context;
-    private float header_text_size, content_text_size, arrow_width, arrow_height;
+    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding, pinnedLineHeight;
     private ExpandableLayoutBinding binding;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
@@ -79,11 +79,12 @@ public class ExpandableLayout extends RelativeLayout {
         arrow_width = attributesArray.getDimension(R.styleable.ExpandableLayout_arrow_width, -1);
         arrow_height = attributesArray.getDimension(R.styleable.ExpandableLayout_arrow_height, -1);
         hideArrow = attributesArray.getBoolean(R.styleable.ExpandableLayout_hideArrow, false);
-        content_text_size = attributesArray.getDimension(R.styleable.ExpandableLayout_content_text_size, -1);
+        content_size = attributesArray.getDimension(R.styleable.ExpandableLayout_content_size, -1);
         headerTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_header_text_style, Typeface.NORMAL));
-        contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_text_style, Typeface.NORMAL));
+        contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
+        pinnedLineHeight = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_pinnedLineHeight, 0));
     }
 
     private void initViews(final Context context) {
@@ -104,14 +105,6 @@ public class ExpandableLayout extends RelativeLayout {
         setArrowParams();
     }
 
-    private int getMeasuredHeight(View view) {
-        view.measure(
-                View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-        return view.getMeasuredHeight();
-    }
-
     private void setArrowParams() {
         if (hideArrow)
             return;
@@ -124,6 +117,20 @@ public class ExpandableLayout extends RelativeLayout {
             return;
         setParams(binding.headerLayout.arrow, width, height);
 
+    }
+
+    private int measureContentHeight() {
+        return getMeasuredHeight(getContentView());
+    }
+
+    private int getContentMeasuredHeight() {
+        return getContentView().getMeasuredHeight();
+    }
+
+    private int getMeasuredHeight(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        return view.getMeasuredHeight();
     }
 
     private void setParams(View view, float width, float height) {
@@ -151,11 +158,11 @@ public class ExpandableLayout extends RelativeLayout {
         binding.setDefaultHeader(true);
         if (attributesArray == null)
             return;
-        String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_header_title);
+        String headerTxt = attributesArray.getString(R.styleable.ExpandableLayout_exp_title);
         int headerTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_header_color, Color.BLACK);
         setHeaderTitle(headerTxt, headerTextColor, header_text_size, headerTextStyle);
         if (headerPadding != -1)
-            binding.headerLayout.getRoot().setPadding(headerPadding, headerPadding, headerPadding, headerPadding);
+            setPadding(binding.headerLayout.getRoot(), headerPadding, headerPadding, headerPadding, headerPadding);
         if (headerFontPath != null)
             binding.headerLayout.setFontPath(headerFontPath);
 
@@ -165,13 +172,17 @@ public class ExpandableLayout extends RelativeLayout {
         binding.setDefaultContent(true);
         if (attributesArray == null)
             return;
-        String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_content_text);
+        String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_exp_content);
         int contentTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_content_color, Color.BLACK);
-        setDefaultContent(contentTxt, contentTextColor, contentTextStyle, content_text_size);
+        setDefaultContent(contentTxt, contentTextColor, contentTextStyle, content_size);
         if (contentPadding != -1)
-            binding.contentLayout.setPadding(contentPadding, contentPadding, contentPadding, contentPadding);
+            setPadding(binding.contentLayout, contentPadding, contentPadding, contentPadding, contentPadding);
         if (headerFontPath != null)
             binding.setFontPath(contentFontPath);
+    }
+
+    private void setPadding(View view, float left, float top, float right, float bottom) {
+        super.setPadding(Math.round(left), Math.round(top), Math.round(right), Math.round(bottom));
     }
 
     private int getTypeFace(int typeface) {
@@ -217,7 +228,7 @@ public class ExpandableLayout extends RelativeLayout {
 
     public void refresh(boolean smoothAnimate) {
         if (isExpanded)
-            expand(getContentView().getMeasuredHeight(), smoothAnimate);
+            expand(getContentMeasuredHeight(), smoothAnimate);
         else collapse(smoothAnimate);
     }
 
@@ -237,20 +248,25 @@ public class ExpandableLayout extends RelativeLayout {
     }
 
     public void collapse(boolean smoothAnimate) {
-        collapse(smoothAnimate, getContentView().getMeasuredHeight());
+        collapse(smoothAnimate, getContentMeasuredHeight());
     }
 
+
     private void collapse(boolean smoothAnimate, int contentHeight) {
-        animateViews(getContentView(), contentHeight, contentHeight,
+        animateViews(getContentView(), contentHeight, contentHeight - getPinnedLineHeight(),
                 COLLAPSING, smoothAnimate);
     }
 
+    private int getPinnedLineHeight() {
+        return Math.round(pinnedLineHeight);
+    }
+
     public void expand(boolean smoothAnimate) {
-        expand(getMeasuredHeight(getContentView()), smoothAnimate);
+        expand(measureContentHeight(), smoothAnimate);
     }
 
     private void expand(int contentHeight, boolean smoothAnimate) {
-        animateViews(getContentView(), 0, contentHeight
+        animateViews(getContentView(), getPinnedLineHeight(), contentHeight
                 , EXPANDING, smoothAnimate);
     }
 
@@ -347,10 +363,10 @@ public class ExpandableLayout extends RelativeLayout {
             binding.headerLayout.setDrawable(drawable);
     }
 
-    private void setDefaultContent(String title, int textColor, int contentTextStyle, float content_text_size) {
+    private void setDefaultContent(String title, int textColor, int contentTextStyle, float content_size) {
         setDefaultContent(title, textColor);
         setContentTextStyle(contentTextStyle);
-        setContentTextSize(content_text_size);
+        setContentTextSize(content_size);
     }
 
     public void setHeaderTitle(String title, int headerTextColor) {

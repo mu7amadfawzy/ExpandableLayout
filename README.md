@@ -46,8 +46,8 @@ implementation  'com.widget:expandableLayout:2+'
  app:content_layout="@layout/custom_content"
  app:header_layout="@layout/layout_expandable_header"
  <!--Or use default layout which is a TextView-->
- app:header_title="Header default Text sample"
- app:content_text="Content Text Sample"
+ app:exp_title="Header default Text sample"
+ app:exp_content="Content Text Sample"
  <!--fonts is the folder name in Assets-->
  app:header_font="fonts/fontName.ttf"
  app:content_font="fonts/fontName.ttf"'
@@ -56,16 +56,16 @@ implementation  'com.widget:expandableLayout:2+'
  app:header_padding="10dp"
  app:content_padding="14dp"
  app:header_text_style="italic"
- app:content_text_style="bold"/> 
+ app:content_style="bold"/> 
 
 ```
 #### You can use the default HeaderTV and ContentTV
 
-##### ````header_title```` sets the text of the headerTV 
+##### ````exp_title```` sets the text of the headerTV 
 ##### ````header_color```` sets the textColor of the headerTV
 ##### ````arrow_icon```` sets the resource of the arrowBtn (which is visible with using the default headerTV) 
 
-##### ````content_text````   sets the text of the contentTV
+##### ````content````   sets the text of the contentTV
 ##### ````content_color```` sets the textColor of the contentTV
 
 ##### ````duration```` sets the duration of the collabse and expand animation

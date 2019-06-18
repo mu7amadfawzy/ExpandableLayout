@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="content_text_style" format="integer">
+    <attr name="content_style" format="integer">
         <flag name="normal" value="0" />
         <flag name="bold" value="1" />
         <flag name="italic" value="2" />
@@ -15,22 +15,23 @@
         <attr name="header_layout" format="reference" />
         <attr name="content_layout" format="reference" />
         <attr name="header_text_size" format="dimension" />
-        <attr name="content_text_size" format="dimension" />
+        <attr name="content_size" format="dimension" />
         <attr name="arrow_width" format="dimension" />
         <attr name="arrow_height" format="dimension" />
         <attr name="header_text_style" />
-        <attr name="content_text_style" />
+        <attr name="content_style" />
         <attr name="duration" format="integer" />
         <attr name="startExpanded" format="boolean" />
         <attr name="hideArrow" format="boolean" />
         <attr name="arrow_icon" format="reference" />
-        <attr name="header_title" format="string" />
-        <attr name="content_text" format="string" />
+        <attr name="exp_title" format="string" />
+        <attr name="exp_content" format="string" />
         <attr name="content_font" format="string" />
         <attr name="header_font" format="string" />
         <attr name="header_color" format="color" />
         <attr name="content_color" format="color" />
         <attr name="header_padding" format="dimension" />
         <attr name="content_padding" format="dimension" />
+        <attr name="pinnedLineHeight" format="dimension" />
     </declare-styleable>
 </resources>

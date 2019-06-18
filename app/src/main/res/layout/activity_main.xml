@@ -77,14 +77,14 @@
                 app:arrow_height="40dp"
                 app:arrow_icon="@drawable/arrow_down2"
                 app:arrow_width="40dp"
+                app:exp_content="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:content_color="@color/colorPrimaryDark"
-                app:content_text="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:duration="300"
+                app:exp_title="Header default Text sample"
                 app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_padding="@dimen/_16sdp"
-                app:header_color="@color/colorAccentDark"
                 app:header_text_style="italic"
-                app:header_title="Header default Text sample" />
+                app:header_color="@color/colorAccentDark" />
 
             <View
                 android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                 app:content_layout="@layout/passengers"
                 app:duration="300"
                 app:header_color="@color/colorPrimaryDark"
-                app:header_title="passengers" />
+                app:exp_title="passengers" />
 
             <View
                 android:layout_width="match_parent"
@@ -115,16 +115,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:arrow_icon="@drawable/ic_arrow_downward"
+                app:content_style="bold"
                 app:content_color="@color/colorAccentDark"
                 app:content_font="fonts/Cairo-Bold.ttf"
-                app:content_text="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
-                app:content_text_style="bold"
+                app:exp_content="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:header_color="@color/colorPrimary"
                 app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_padding="@dimen/_16sdp"
+                app:exp_title="Another Header Text Sample"
                 app:startExpanded="true"
-                app:header_text_style="italic"
-                app:header_title="Another Header Text Sample" />
+                app:header_text_style="italic" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

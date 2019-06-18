@@ -23,12 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:arrow_icon="@drawable/ic_arrow_downward"
+                app:content_size="@dimen/_3ssp"
                 app:content_color="@color/black"
-                app:content_text="bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla balbla bla bal bla bla balbla bla balbla bla balbla bla bal bla bla bal bla bla bal bla bla bal bla bla bal  bla bla bal bla bla balbla bla bal bla bla bal bla bla balbla bla balbla bla balbla bla balbla bla balbla bla balbla bla bal"
-                app:content_text_size="@dimen/_3ssp"
+                app:exp_content="bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla balbla bla bal bla bla balbla bla balbla bla balbla bla bal bla bla bal bla bla bal bla bla bal bla bla bal  bla bla bal bla bla balbla bla bal bla bla bal bla bla balbla bla balbla bla balbla bla balbla bla balbla bla balbla bla bal"
                 app:duration="300"
                 app:header_color="@color/green"
-                app:header_title="Header"
+                app:exp_title="Header"
+                app:pinnedLineHeight="@dimen/_13sdp"
                 app:startExpanded="false" />
 
         </androidx.cardview.widget.CardView>
