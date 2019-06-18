@@ -79,11 +79,11 @@ implementation  'com.widget:expandableLayout:2+'
 
 ##### ````pinnedLineHeight```` define collapsed content minimum height.
 
-#### Use toggle() to reverse the state, and use isExpanded() to check if it was expanded or not.
+#### Use ```toggle()``` to reverse the state, and use isExpanded() to check if it was expanded or not.
 
-#### Use refresh() to remain the state(in case expanded while custom content includes RecyclerView whose data were updated         then trigging refresh() will help the expandable sets the expand height well).
+#### Use ```refresh()``` to remain the state(in case expanded while custom content includes RecyclerView whose data were updated         then trigging refresh() will help the expandable sets the expand height well).
 
-#### setOnExpandedListener that can be used to listen to state change:
+#### ```setOnExpandedListener``` that can be used to listen to state change:
 ````
 expandableLayout.setOnExpandedListener(new OnExpandedListener() {
     @Override
@@ -141,7 +141,7 @@ expandable.getHeaderLayoutView();
 expandable.getContentLayoutView();
 ````
 ### 2.3 In RecyclerView:
-//In order to enable one expanded per time in recyclerViewAdaper.onBind() call setRecyclerItem(linearLayoutManager,itemPosition)
+//In order to enable one expanded per time in recyclerViewAdaper.onBind() call ```setRecyclerItem(linearLayoutManager,itemPosition)``` with the RecyclerView's layoutManger(weather ```GridLayoutManager``` or ```LinearLayoutManager```)
 ````
 expandable.setRecyclerItem(linearLayoutManager, getAdapterPosition());
 ````
