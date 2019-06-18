@@ -61,7 +61,7 @@
                 app:arrow_icon="@drawable/ic_arrow_downward"
                 app:content_layout="@layout/layout_expandable_content"
                 app:duration="300"
-                app:header_layout="@layout/layout_expandable_header" />
+                app:exp_title="CUSTOM CONTENT" />
 
             <View
                 android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                 app:exp_content="Default Content Text Sample \nDefault Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:content_color="@color/colorPrimaryDark"
                 app:duration="300"
-                app:exp_title="Header default Text sample"
+                app:header_layout="@layout/layout_expandable_header"
                 app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_padding="@dimen/_16sdp"
                 app:header_text_style="italic"
@@ -99,10 +99,10 @@
                 app:arrow_height="30dp"
                 app:arrow_icon="@drawable/arrow_down"
                 app:arrow_width="30dp"
-                app:content_layout="@layout/passengers"
+                app:content_layout="@layout/custom_content"
                 app:duration="300"
                 app:header_color="@color/colorPrimaryDark"
-                app:exp_title="passengers" />
+                app:exp_title="Custom Content" />
 
             <View
                 android:layout_width="match_parent"

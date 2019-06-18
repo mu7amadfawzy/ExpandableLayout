@@ -38,7 +38,7 @@
             layout="@layout/layout_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            bind:visible="@{defaultHeader}" />
+            bind:customHeader="@{!defaultHeader}" />
 
         <RelativeLayout
             android:id="@+id/content_container"

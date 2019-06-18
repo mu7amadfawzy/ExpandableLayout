@@ -29,19 +29,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addExpandable() {
-        ExpandableLayout expandableLayout = new ExpandableLayout(this);
-        expandableLayout.setHeaderTitle("Added By Java", Color.BLACK);
-        expandableLayout.setDefaultContent("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx", Color.BLUE);
-        expandableLayout.setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
-
+        ExpandableLayout expandableLayout = new ExpandableLayout(this)
+                .setHeaderTitle("Added By Java", Color.BLACK)
+                .setDefaultContent("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx", Color.BLUE)
+                .setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
         container.addView(expandableLayout);
     }
 
     private void addCustomExpandable() {
-        ExpandableLayout expandableLayout = new ExpandableLayout(this);
-        expandableLayout.setHeaderTitle(R.layout.layout_expandable_header);
-        expandableLayout.setContentLayout(R.layout.layout_expandable_content);
-        expandableLayout.setArrowDrawable(getDrawable(R.drawable.ic_arrow_downward));
+        ExpandableLayout expandableLayout = new ExpandableLayout(this)
+                .setHeaderTitle(R.layout.layout_expandable_header)
+                .setContentLayout(R.layout.layout_expandable_content)
+                .setArrowDrawable(getDrawable(R.drawable.ic_arrow_downward));
         container.addView(expandableLayout);
     }
 

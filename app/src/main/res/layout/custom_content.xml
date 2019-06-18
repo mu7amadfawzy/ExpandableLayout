@@ -18,8 +18,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
-                android:text="Alessandro Sperotti" />
+                android:hint="Developer"
+                android:text="Mohamed Fawzy" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -30,8 +30,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Departure Airport"
-                android:text="Milano Malpensa (MXP)" />
+                android:hint="Job"
+                android:text="Senior Android Developer" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

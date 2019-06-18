@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="none"
-            android:text="Header Layout"
+            android:text="Custom Header Layout"
             android:textColor="@color/red"
             android:textStyle="bold" />
 

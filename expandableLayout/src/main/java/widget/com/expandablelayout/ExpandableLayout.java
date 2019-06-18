@@ -207,9 +207,9 @@ public class ExpandableLayout extends RelativeLayout {
 
     private void inflateHeader(Context context, int viewID) {
         binding.setDefaultHeader(false);
+        binding.headerLayout.setCustomHeader(true);
         binding.headerLayout.headerLayout.removeAllViews();
         customHeaderBinding = inflateView(context, viewID, binding.headerLayout.headerLayout, true);
-        binding.headerLayout.setCustomHeader(true);
     }
 
     private void inflateContent(Context context, int viewID) {
@@ -348,59 +348,70 @@ public class ExpandableLayout extends RelativeLayout {
         }
     }
 
-    public void setHeaderTitle(int layoutRes) {
+    public ExpandableLayout setHeaderTitle(int layoutRes) {
         headerLayoutRes = layoutRes;
         inflateHeader(context, layoutRes);
+        return this;
     }
 
-    public void setContentLayout(int layoutRes) {
+    public ExpandableLayout setContentLayout(int layoutRes) {
         contentLayoutRes = layoutRes;
         inflateContent(context, layoutRes);
+        return this;
     }
 
-    public void setArrowDrawable(Drawable drawable) {
+    public ExpandableLayout setArrowDrawable(Drawable drawable) {
         if (drawable != null)
             binding.headerLayout.setDrawable(drawable);
+        return this;
     }
 
-    private void setDefaultContent(String title, int textColor, int contentTextStyle, float content_size) {
+    private ExpandableLayout setDefaultContent(String title, int textColor, int contentTextStyle, float content_size) {
         setDefaultContent(title, textColor);
         setContentTextStyle(contentTextStyle);
         setContentTextSize(content_size);
+        return this;
     }
 
-    public void setHeaderTitle(String title, int headerTextColor) {
+    public ExpandableLayout setHeaderTitle(String title, int headerTextColor) {
         setTitle(title);
         setHeaderLayoutTextColor(headerTextColor);
+        return this;
     }
 
-    public void setTitle(String title) {
+    public ExpandableLayout setTitle(String title) {
         binding.headerLayout.setTitle(title);
+        return this;
     }
 
-    private void setHeaderTitle(String title, int headerTextColor, float header_text_size, int headerTextStyle) {
+    private ExpandableLayout setHeaderTitle(String title, int headerTextColor, float header_text_size, int headerTextStyle) {
         setHeaderTitle(title, headerTextColor);
         setHeaderTextSize(header_text_size);
         setHeaderTextStyle(headerTextStyle);
+        return this;
     }
 
-    public void setDefaultContent(String title, int textColor) {
+    public ExpandableLayout setDefaultContent(String title, int textColor) {
         setContent(title);
         setDefaultContentTextColor(textColor);
+        return this;
     }
 
-    public void setContent(String title) {
+    public ExpandableLayout setContent(String title) {
         binding.setContentText(title);
         binding.contentTV.setText(title);
+        return this;
     }
 
-    public void setDefaultContentTextColor(int contentTextColor) {
+    public ExpandableLayout setDefaultContentTextColor(int contentTextColor) {
         binding.contentTV.setTextColor(contentTextColor);
+        return this;
     }
 
-    public void setContentTextSize(float textSize) {
+    public ExpandableLayout setContentTextSize(float textSize) {
         if (textSize != -1)
             binding.contentTV.setTextSize(textSize);
+        return this;
     }
 
     /**
