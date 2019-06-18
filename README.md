@@ -42,6 +42,8 @@ implementation  'com.widget:expandableLayout:2+'
  app:content_padding="10dp"
  <!--default false-->
  app:startExpanded="true"
+  <!--default 0-->
+ app:pinnedLineHeight="15dp"
  <!--use your own custom layout-->
  app:content_layout="@layout/custom_content"
  app:header_layout="@layout/layout_expandable_header"
@@ -59,23 +61,27 @@ implementation  'com.widget:expandableLayout:2+'
  app:content_style="bold"/> 
 
 ```
-#### You can use the default HeaderTV and ContentTV
+#### You can use the default HeaderTV and ContentTV:
 
-##### ````exp_title```` sets the text of the headerTV 
-##### ````header_color```` sets the textColor of the headerTV
-##### ````arrow_icon```` sets the resource of the arrowBtn (which is visible with using the default headerTV) 
+##### ````exp_title```` sets the text of the headerTV .
+##### ````header_color```` sets the textColor of the headerTV.
+##### ````arrow_icon```` sets the resource of the arrowBtn (which is visible with using the default headerTV). 
 
-##### ````content````   sets the text of the contentTV
-##### ````content_color```` sets the textColor of the contentTV
+##### ````content````   sets the text of the contentTV.
+##### ````content_color```` sets the textColor of the contentTV.
 
-##### ````duration```` sets the duration of the collabse and expand animation
+##### ````duration```` sets the duration of the collabse and expand animation.
 
-#### Or you can use set a custom header or a custom content 
+#### Or you can use set a custom header or a custom content:
 
-##### ````header_layout````   sets the declared layout resource as the header layout
-##### ````content_layout```` sets the declared layout resource as the content layout 
+##### ````header_layout````   sets the declared layout resource as the header layout.
+##### ````content_layout```` sets the declared layout resource as the content layout.
 
-#### You can use toggle() to reverse the state, and use isExpanded() to check if it was expanded or not.
+##### ````pinnedLineHeight```` define collapsed content minimum height.
+
+#### Use toggle() to reverse the state, and use isExpanded() to check if it was expanded or not.
+
+#### Use refresh() to remain the state(in case expanded while custom content includes RecyclerView whose data were updated         then trigging refresh() will help the expandable sets the expand height well).
 
 #### setOnExpandedListener that can be used to listen to state change:
 ````
@@ -91,37 +97,33 @@ expandableLayout.setOnExpandedListener(new OnExpandedListener() {
 
 #### In Java:
 
-````
-ExpandableLayout expandableLayout=new ExpandableLayout(context);
-````
 ##### Default HeaderTV and ContentTV
 ````
-expandableLayout.setDefaultHeaderTitle("Added Through Java");
-expandableLayout.setDefaultContentTitle("Content xxx");
-expandableLayout.setArrowDrawable(R.drawable.arrow_ic);
+ ExpandableLayout expandableLayout = new ExpandableLayout(context)
+                .setHeaderTitle("Added By Java", Color.BLACK)
+                .setDefaultContent("Content xxx", Color.BLUE)
+                .setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
 ````
 
 ##### Custom HeaderTV OR ContentTV
 ````
 expandableLayout.setHeaderLayout(R.layout.custom_header);
-expandableLayout.setContentLayout(R.layout.custom_content);
+                .setContentLayout(R.layout.custom_content);
 ````
 #### In Kotlin:
 
-````
-var expandableLayout = ExpandableLayout(context)
-````
 ##### Default HeaderTV and ContentTV
 ````
-expandableLayout.setDefaultHeaderTitle("Added Through Kotlin")
-expandableLayout.setDefaultContentTitle("Content xxx")
-expandableLayout.setArrowDrawable(R.drawable.arrow_ic)
+var expandableLayout = ExpandableLayout(context)
+                 .setDefaultHeaderTitle("Added Through Kotlin")
+                 .setDefaultContentTitle("Content xxx")
+                 .setArrowDrawable(R.drawable.arrow_ic)
 ````
 
 ##### Custom HeaderTV OR ContentTV
 ````
 expandableLayout.setHeaderLayout(R.layout.custom_header)
-expandableLayout.setContentLayout(R.layout.custom_content)
+                .setContentLayout(R.layout.custom_content)
 ````
 ##### Adding the layout to container view
 ````
@@ -130,13 +132,18 @@ container.addView(expandableLayout)
 ##### Then you can trigger your custom layouts using:
 ###### For DataBinding lovers 
 ````
-expandable.getHeaderLayoutBinding();//returns ViewDataBinding which can be cast to your layout name
+expandable.getHeaderLayoutBinding();//returns ViewDataBinding which can be cast to your layout binding Impl class
 expandable.getContentLayoutBinding();
 ````
 ###### Or just a simple view
 ````
 expandable.getHeaderLayoutView();
 expandable.getContentLayoutView();
+````
+### 2.3 In RecyclerView:
+//In order to enable one expanded per time in recyclerViewAdaper.onBind() call setRecyclerItem(linearLayoutManager,itemPosition)
+````
+expandable.setRecyclerItem(linearLayoutManager, getAdapterPosition());
 ````
 
 ### Happy Coding
