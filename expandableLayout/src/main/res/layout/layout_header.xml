@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            bind:visibility="@{customHeader}" />
+            bind:visibility="@{customHeader}"
+            tools:visibility="visible" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/headerTV"
@@ -57,7 +58,9 @@
             android:textColor="@android:color/primary_text_light"
             android:textSize="14sp"
             bind:fontPath="@{fontPath}"
-            bind:visibility="@{!customHeader}" />
+            bind:visibility="@{!customHeader}"
+            tools:text="Header"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/arrow"
@@ -71,6 +74,7 @@
             android:gravity="end"
             bind:src="@{drawable}"
             bind:visibility="@{!hideArrow}"
-            tools:src="@drawable/arrow_down" />
+            tools:src="@drawable/arrow_down"
+            tools:visibility="visible" />
     </RelativeLayout>
 </layout>

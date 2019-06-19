@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
@@ -29,7 +30,7 @@ import static widget.com.expandablelayout.AnimationUtils.EXPANDING;
  * Created by Fawzy on 02,March,2019.
  * ma7madfawzy@gmail.com
  */
-public class ExpandableLayout extends RelativeLayout {
+public class ExpandableLayout extends LinearLayout {
     private Integer duration = 300;
     private Animation animation;
     private ExpandableLayout.OnExpandedListener listener;
@@ -58,13 +59,10 @@ public class ExpandableLayout extends RelativeLayout {
 
     public ExpandableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        initAttributes(context, attrs);
-        initViews(context);
+        init(context, attrs);
     }
 
-    public ExpandableLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    private void init(Context context, AttributeSet attrs) {
         this.context = context;
         initAttributes(context, attrs);
         initViews(context);
@@ -86,7 +84,7 @@ public class ExpandableLayout extends RelativeLayout {
         content_size = attributesArray.getDimension(R.styleable.ExpandableLayout_content_size, -1);
         headerTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_header_text_style, Typeface.NORMAL));
         contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_style, Typeface.NORMAL));
-        headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
+        headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_header_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
         pinnedLineHeight = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_pinnedLineHeight, 0));
     }
@@ -180,13 +178,13 @@ public class ExpandableLayout extends RelativeLayout {
         int contentTextColor = attributesArray.getColor(R.styleable.ExpandableLayout_content_color, Color.BLACK);
         setDefaultContent(contentTxt, contentTextColor, contentTextStyle, content_size);
         if (contentPadding != -1)
-            setPadding(binding.contentLayout, contentPadding, contentPadding, contentPadding, contentPadding);
+            setPadding(getContentView(), contentPadding, contentPadding, contentPadding, contentPadding);
         if (headerFontPath != null)
             binding.setFontPath(contentFontPath);
     }
 
     private void setPadding(View view, float left, float top, float right, float bottom) {
-        super.setPadding(Math.round(left), Math.round(top), Math.round(right), Math.round(bottom));
+        view.setPadding(Math.round(left), Math.round(top), Math.round(right), Math.round(bottom));
     }
 
     private int getTypeFace(int typeface) {

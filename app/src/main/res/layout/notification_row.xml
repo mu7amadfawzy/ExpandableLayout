@@ -2,37 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <widget.com.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_7sdp"
+        app:arrow_icon="@drawable/ic_arrow_downward"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:cardElevation="@dimen/_1sdp"
+        app:content_color="@color/black"
+        app:content_size="@dimen/_8ssp"
+        app:duration="300"
+        app:exp_content="bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla balbla bla bal bla bla balbla bla balbla bla balbla bla bal bla bla bal bla bla bal bla bla bal bla bla bal  bla bla bal bla bla balbla bla bal bla bla bal bla bla balbla bla balbla bla balbla bla balbla bla balbla bla balbla bla bal"
+        app:exp_title="Header"
+        app:header_color="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pinnedLineHeight="@dimen/_13sdp"
+        app:startExpanded="false" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_7sdp"
-            app:cardCornerRadius="@dimen/_3sdp"
-            app:cardElevation="@dimen/_1sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <widget.com.expandablelayout.ExpandableLayout
-                android:id="@+id/expandable"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:arrow_icon="@drawable/ic_arrow_downward"
-                app:content_size="@dimen/_3ssp"
-                app:content_color="@color/black"
-                app:exp_content="bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla bal bla bla balbla bla bal bla bla balbla bla balbla bla balbla bla bal bla bla bal bla bla bal bla bla bal bla bla bal  bla bla bal bla bla balbla bla bal bla bla bal bla bla balbla bla balbla bla balbla bla balbla bla balbla bla balbla bla bal"
-                app:duration="300"
-                app:header_color="@color/green"
-                app:exp_title="Header"
-                app:pinnedLineHeight="@dimen/_13sdp"
-                app:startExpanded="false" />
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
