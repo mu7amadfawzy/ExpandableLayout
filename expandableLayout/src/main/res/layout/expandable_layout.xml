@@ -37,8 +37,6 @@
         <include
             android:id="@+id/headerLayout"
             layout="@layout/layout_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             bind:customHeader="@{!defaultHeader}" />
 
         <RelativeLayout
@@ -53,7 +51,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 bind:visibility="@{!defaultContent}"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/contentTV"
@@ -69,7 +67,7 @@
                 bind:fontPath="@{fontPath}"
                 bind:visibility="@{defaultContent &amp;contentText!=null}"
                 tools:text="Content"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
         </RelativeLayout>
 
 
