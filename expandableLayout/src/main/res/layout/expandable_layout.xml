@@ -67,7 +67,7 @@
                 android:textColor="@android:color/primary_text_light"
                 android:textSize="12sp"
                 bind:fontPath="@{fontPath}"
-                bind:visibility="@{defaultContent}"
+                bind:visibility="@{defaultContent &amp;contentText!=null}"
                 tools:text="Content"
                 tools:visibility="visible" />
         </RelativeLayout>

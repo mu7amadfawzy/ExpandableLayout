@@ -55,6 +55,20 @@
             android:paddingBottom="20dp">
 
             <widget.com.expandablelayout.ExpandableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:arrow_icon="@drawable/ic_arrow_downward"
+                app:content_color="@color/colorAccentDark"
+                app:content_font="fonts/Cairo-Bold.ttf"
+                app:content_style="bold"
+                app:exp_content="Default Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
+                app:exp_title="Another Header Text Sample"
+                app:header_color="@color/colorPrimary"
+                app:header_font="fonts/Cairo-SemiBold.ttf"
+                app:header_text_style="italic"
+                app:startExpanded="true" />
+
+            <widget.com.expandablelayout.ExpandableLayout
                 android:id="@+id/cutsom_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,21 +126,6 @@
                 android:layout_marginBottom="3dp"
                 android:background="#000" />
 
-            <widget.com.expandablelayout.ExpandableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:arrow_icon="@drawable/ic_arrow_downward"
-                app:content_color="@color/colorAccentDark"
-                app:content_font="fonts/Cairo-Bold.ttf"
-                app:content_padding="@dimen/_8sdp"
-                app:content_style="bold"
-                app:exp_content="Default Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
-                app:exp_title="Another Header Text Sample"
-                app:header_color="@color/colorPrimary"
-                app:header_font="fonts/Cairo-SemiBold.ttf"
-                app:header_padding="@dimen/_2sdp"
-                app:header_text_style="italic"
-                app:startExpanded="true" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

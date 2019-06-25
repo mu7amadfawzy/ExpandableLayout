@@ -14,23 +14,33 @@ import androidx.databinding.BindingAdapter;
  */
 
 public class BindingUtil {
-    @BindingAdapter({"bind:src"})
+    @BindingAdapter({"src"})
     public static void setImageBackground(ImageView view, Drawable drawable) {
         view.setImageDrawable(drawable);
     }
 
-    @BindingAdapter("bind:visibility")
+    @BindingAdapter("visibility")
     public static void visibility(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    @BindingAdapter("bind:fontPath")
+    @BindingAdapter("fontPath")
     public static void fontBold(TextView view, String fontPath) {
         if (fontPath != null) {
             TextView textView = (TextView) view;
             Typeface type = Typeface.createFromAsset(view.getContext().getAssets(), fontPath);
             textView.setTypeface(type, Typeface.BOLD);
         }
+    }
+
+    @BindingAdapter({"exp_content"})
+    public static void setContent(ExpandableLayout view, String content_text) {
+        view.setContent(content_text);
+    }
+
+    @BindingAdapter({"exp_title"})
+    public static void setTitle(ExpandableLayout view, String content_text) {
+        view.setTitle(content_text);
     }
 
 }

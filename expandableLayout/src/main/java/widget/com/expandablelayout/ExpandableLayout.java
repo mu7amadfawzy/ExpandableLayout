@@ -13,13 +13,13 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import carbon.widget.LinearLayout;
 import widget.com.expandablecardview.R;
 import widget.com.expandablecardview.databinding.ExpandableLayoutBinding;
 
@@ -41,7 +41,7 @@ public class ExpandableLayout extends LinearLayout {
     private TypedArray attributesArray;
     private boolean isExpanded = true, startExpanded, hideArrow;
     private Context context;
-    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding, pinnedLineHeight;
+    private float cornerRadius, header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding, pinnedLineHeight;
     private ExpandableLayoutBinding binding;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
@@ -70,6 +70,7 @@ public class ExpandableLayout extends LinearLayout {
 
     private void initAttributes(Context context, AttributeSet attrs) {
         attributesArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
+//        cornerRadius = attributesArray.getDimension(R.styleable.ExpandableLayout_corner_radius, 0);
         headerLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_header_layout, -1);
         contentLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_content_layout, -1);
         headerFontPath = attributesArray.getString(R.styleable.ExpandableLayout_header_font);
@@ -93,6 +94,7 @@ public class ExpandableLayout extends LinearLayout {
         binding = (ExpandableLayoutBinding) inflateView(context, R.layout.expandable_layout, this, true);
         binding.headerLayout.setHideArrow(hideArrow);
         binding.headerLayout.setCustomHeader(false);
+//        binding.container.setCornerRadius(cornerRadius);
         setArrowParams();
         setDrawableBackground(binding.headerLayout.arrow, arrowIconRes);
         binding.headerLayout.getRoot().setOnClickListener(this::onHeaderClicked);
@@ -145,10 +147,10 @@ public class ExpandableLayout extends LinearLayout {
     }
 
     private void inflateInnerViews(Context context) {
-        if (headerLayoutRes == -1)
+        if (isDefaultHeader())
             setHeaderTitle(context);
         else inflateHeader(context, headerLayoutRes);
-        if (contentLayoutRes == -1)
+        if (isDefaultContent())
             setDefaultContent(context);
         else inflateContent(context, contentLayoutRes);
 
@@ -333,8 +335,8 @@ public class ExpandableLayout extends LinearLayout {
     }
 
 
-    private ViewGroup getContentView() {
-        return binding.contentContainer;
+    private View getContentView() {
+        return isDefaultContent() ? binding.contentTV : binding.contentLayout;
     }
 
     private ViewDataBinding inflateView(Context context, int viewID, ViewGroup root, boolean attachToRoot) {
@@ -468,6 +470,13 @@ public class ExpandableLayout extends LinearLayout {
         expandedPos = -1;
     }
 
+    private boolean isDefaultContent() {
+        return contentLayoutRes == -1;
+    }
+
+    private boolean isDefaultHeader() {
+        return headerLayoutRes == -1;
+    }
 
     public interface OnExpandedListener {
 
