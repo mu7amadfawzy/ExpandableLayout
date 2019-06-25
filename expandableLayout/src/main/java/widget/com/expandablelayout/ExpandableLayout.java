@@ -13,13 +13,13 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import carbon.widget.LinearLayout;
 import widget.com.expandablecardview.R;
 import widget.com.expandablecardview.databinding.ExpandableLayoutBinding;
 
@@ -219,7 +219,6 @@ public class ExpandableLayout extends LinearLayout {
         binding.contentLayout.removeAllViews();
         customContentBinding = inflateView(context, viewID, binding.contentLayout, true);
     }
-
 
     private void onHeaderClicked(View v) {
         toggle(true);
