@@ -27,9 +27,8 @@ public class BindingUtil {
     @BindingAdapter("fontPath")
     public static void fontBold(TextView view, String fontPath) {
         if (fontPath != null) {
-            TextView textView = (TextView) view;
             Typeface type = Typeface.createFromAsset(view.getContext().getAssets(), fontPath);
-            textView.setTypeface(type, Typeface.BOLD);
+            view.setTypeface(type, Typeface.BOLD);
         }
     }
 
