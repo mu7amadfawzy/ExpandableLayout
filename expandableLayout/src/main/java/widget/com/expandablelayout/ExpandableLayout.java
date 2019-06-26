@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.view.animation.Transformation;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -390,8 +392,8 @@ public class ExpandableLayout extends LinearLayout {
 
     private ExpandableLayout setHeaderTitle(String title, int headerTextColor, float header_text_size, int headerTextStyle) {
         setHeaderTitle(title, headerTextColor);
-        setHeaderTextSize(header_text_size);
         setHeaderTextStyle(headerTextStyle);
+        setHeaderTextSize(header_text_size);
         return this;
     }
 
@@ -414,8 +416,12 @@ public class ExpandableLayout extends LinearLayout {
 
     public ExpandableLayout setContentTextSize(float textSize) {
         if (textSize != -1)
-            binding.contentTV.setTextSize(textSize);
+            setTextSize(textSize, binding.contentTV);
         return this;
+    }
+
+    public void setTextSize(float textSize, TextView textView) {
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
 
     /**
@@ -443,7 +449,7 @@ public class ExpandableLayout extends LinearLayout {
 
     public void setHeaderTextSize(float textSize) {
         if (textSize != -1)
-            binding.headerLayout.headerTV.setTextSize(textSize);
+            setTextSize(textSize, binding.headerLayout.headerTV);
     }
 
     public void setHeaderLayoutTextColor(int headerTextColor) {

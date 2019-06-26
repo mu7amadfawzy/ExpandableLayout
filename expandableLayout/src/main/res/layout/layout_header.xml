@@ -31,7 +31,8 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
 
         <RelativeLayout
@@ -43,18 +44,16 @@
             bind:visibility="@{customHeader}"
             tools:visibility="visible" />
 
-        <me.grantland.widget.AutofitTextView
+        <TextView
             android:id="@+id/headerTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
             android:clickable="false"
-            android:maxLines="1"
+            android:gravity="center_vertical"
             android:text="@{title}"
             android:textColor="@android:color/primary_text_light"
-            android:textSize="14sp"
             bind:fontPath="@{fontPath}"
             bind:visibility="@{!customHeader}"
             tools:text="Header"
