@@ -234,7 +234,7 @@ public class ExpandableLayout extends LinearLayout {
 
     public void refresh(boolean smoothAnimate) {
         if (isExpanded)
-            expand(getContentMeasuredHeight(), smoothAnimate);
+            expand(measureContentHeight(), smoothAnimate);
         else collapse(smoothAnimate);
     }
 
