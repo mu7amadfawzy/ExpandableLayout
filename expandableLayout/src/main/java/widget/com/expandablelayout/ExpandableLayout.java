@@ -41,9 +41,9 @@ public class ExpandableLayout extends LinearLayout {
     private int itemPosition;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
-    private boolean isExpanded = true, startExpanded, hideArrow;
+    private boolean isExpanded = true, startExpanded, hideArrow, showContentFirstLine;
     private Context context;
-    private float cornerRadius, header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding, pinnedLineHeight;
+    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding;
     private ExpandableLayoutBinding binding;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
@@ -89,14 +89,13 @@ public class ExpandableLayout extends LinearLayout {
         contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_header_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
-        pinnedLineHeight = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_pinnedLineHeight, 0));
+        showContentFirstLine = attributesArray.getBoolean(R.styleable.ExpandableLayout_showContentFirstLine, false);
     }
 
     private void initViews(final Context context) {
         binding = (ExpandableLayoutBinding) inflateView(context, R.layout.expandable_layout, this, true);
         binding.headerLayout.setHideArrow(hideArrow);
         binding.headerLayout.setCustomHeader(false);
-//        binding.container.setCornerRadius(cornerRadius);
         setArrowParams();
         setDrawableBackground(binding.headerLayout.arrow, arrowIconRes);
         binding.headerLayout.getRoot().setOnClickListener(this::onHeaderClicked);
@@ -150,17 +149,17 @@ public class ExpandableLayout extends LinearLayout {
 
     private void inflateInnerViews(Context context) {
         if (isDefaultHeader())
-            setHeaderTitle(context);
+            setHeaderTitle();
         else inflateHeader(context, headerLayoutRes);
         if (isDefaultContent())
-            setDefaultContent(context);
+            setDefaultContent();
         else inflateContent(context, contentLayoutRes);
 
         if (attributesArray != null)
             attributesArray.recycle();
     }
 
-    private void setHeaderTitle(Context context) {
+    private void setHeaderTitle() {
         binding.setDefaultHeader(true);
         if (attributesArray == null)
             return;
@@ -174,8 +173,9 @@ public class ExpandableLayout extends LinearLayout {
 
     }
 
-    private void setDefaultContent(Context context) {
+    private void setDefaultContent() {
         binding.setDefaultContent(true);
+        binding.setShowContentFirstLine(showContentFirstLine);
         if (attributesArray == null)
             return;
         String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_exp_content);
@@ -259,12 +259,8 @@ public class ExpandableLayout extends LinearLayout {
 
 
     private void collapse(boolean smoothAnimate, int contentHeight) {
-        animateViews(getContentView(), contentHeight, contentHeight - getPinnedLineHeight(),
+        animateViews(getContentView(), contentHeight, contentHeight,
                 COLLAPSING, smoothAnimate);
-    }
-
-    private int getPinnedLineHeight() {
-        return Math.round(pinnedLineHeight);
     }
 
     public void expand(boolean smoothAnimate) {
@@ -272,7 +268,7 @@ public class ExpandableLayout extends LinearLayout {
     }
 
     private void expand(int contentHeight, boolean smoothAnimate) {
-        animateViews(getContentView(), getPinnedLineHeight(), contentHeight
+        animateViews(getContentView(), 0, contentHeight
                 , EXPANDING, smoothAnimate);
     }
 
@@ -309,12 +305,17 @@ public class ExpandableLayout extends LinearLayout {
     private void checkRecyclerCase() {
         if (linearLayoutManager == null || !isExpanded)
             return;
+        boolean atLeastOneCollapsed = false;
         expandedPos = itemPosition;
         for (int i = linearLayoutManager.findFirstVisibleItemPosition(); i < linearLayoutManager.findLastVisibleItemPosition(); i++) {
             ExpandableLayout expandableLayout = linearLayoutManager.findViewByPosition(i).findViewById(getId());
-            if (expandableLayout != this && expandableLayout.isExpanded())
+            if (expandableLayout != this && expandableLayout.isExpanded()) {
+                atLeastOneCollapsed = true;
                 expandableLayout.collapse(false);
+            }
         }
+        if (!atLeastOneCollapsed)
+            expandedPos = -1;
     }
 
     private void updateListener(View view, int animationType) {

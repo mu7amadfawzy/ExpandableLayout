@@ -20,6 +20,10 @@
             type="boolean" />
 
         <variable
+            name="showContentFirstLine"
+            type="boolean" />
+
+        <variable
             name="contentText"
             type="String" />
 
@@ -59,7 +63,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:maxLines="@{showContentFirstLine?1:Integer.MAX_VALUE}"
                 android:gravity="top|start"
+                android:singleLine="@{showContentFirstLine}"
                 android:text="@{contentText}"
                 android:textColor="@android:color/primary_text_light"
                 android:textDirection="locale"
