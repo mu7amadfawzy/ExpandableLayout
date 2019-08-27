@@ -42,8 +42,8 @@ implementation  'com.widget:expandableLayout:3+'
  app:content_padding="10dp"
  <!--default false-->
  app:startExpanded="true"
-  <!--default 0-->
- app:pinnedLineHeight="15dp"
+  <!--default false-->
+ app:showContentFirstLine="true"
  <!--use your own custom layout-->
  app:content_layout="@layout/custom_content"
  app:header_layout="@layout/layout_expandable_header"
@@ -77,7 +77,7 @@ implementation  'com.widget:expandableLayout:3+'
 ##### ````header_layout````   sets the declared layout resource as the header layout.
 ##### ````content_layout```` sets the declared layout resource as the content layout.
 
-##### ````pinnedLineHeight```` define collapsed content minimum height.
+##### ````showContentFirstLine```` shows first line of the default content in case collapsed.
 
 #### Use ```toggle()``` to reverse the state, and use isExpanded() to check if it was expanded or not.
 
@@ -142,7 +142,7 @@ expandable.getContentLayoutView();
 ````
 ### 2.3 In RecyclerView:
 #### In order to setup using in RecyclerView call ```ExpandableLayout.onAttachedToRecycler()``` before binding items of the Adapter.
-##### In order to enable one expanded per time in recyclerViewAdaper.onBind() call ``` setRecyclerItem(linearLayoutManager,itemPosition)``` with the RecyclerView's layoutManger(weather ```GridLayoutManager``` or ```LinearLayoutManager```)
+##### In order to enable one expanded per time in recyclerViewAdapter.onBind() call ``` setRecyclerItem(linearLayoutManager,itemPosition)``` with the RecyclerView's layoutManger(weather ```GridLayoutManager``` or ```LinearLayoutManager```)
 ````
 expandable.setRecyclerItem(linearLayoutManager, getAdapterPosition());
 ````
