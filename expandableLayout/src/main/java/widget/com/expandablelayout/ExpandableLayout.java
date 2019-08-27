@@ -72,7 +72,6 @@ public class ExpandableLayout extends LinearLayout {
 
     private void initAttributes(Context context, AttributeSet attrs) {
         attributesArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
-//        cornerRadius = attributesArray.getDimension(R.styleable.ExpandableLayout_corner_radius, 0);
         headerLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_header_layout, -1);
         contentLayoutRes = attributesArray.getResourceId(R.styleable.ExpandableLayout_content_layout, -1);
         headerFontPath = attributesArray.getString(R.styleable.ExpandableLayout_header_font);
@@ -96,7 +95,6 @@ public class ExpandableLayout extends LinearLayout {
         binding = (ExpandableLayoutBinding) inflateView(context, R.layout.expandable_layout, this, true);
         binding.headerLayout.setHideArrow(hideArrow);
         binding.headerLayout.setCustomHeader(false);
-//        binding.container.setCornerRadius(cornerRadius);
         setArrowParams();
         setDrawableBackground(binding.headerLayout.arrow, arrowIconRes);
         binding.headerLayout.getRoot().setOnClickListener(this::onHeaderClicked);
