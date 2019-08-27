@@ -41,9 +41,9 @@ public class ExpandableLayout extends LinearLayout {
     private int itemPosition;
     private Drawable arrowIconRes;
     private TypedArray attributesArray;
-    private boolean isExpanded = true, startExpanded, hideArrow, showContentFirstLine;
+    private boolean isExpanded = true, startExpanded, hideArrow;
     private Context context;
-    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding;
+    private float header_text_size, content_size, arrow_width, arrow_height, pinnedLineHeight, headerPadding, contentPadding;
     private ExpandableLayoutBinding binding;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
@@ -88,7 +88,7 @@ public class ExpandableLayout extends LinearLayout {
         contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_header_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
-        showContentFirstLine = attributesArray.getBoolean(R.styleable.ExpandableLayout_showContentFirstLine, false);
+        pinnedLineHeight = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_pinnedLineHeight, 0));
     }
 
     private void initViews(final Context context) {
@@ -174,7 +174,6 @@ public class ExpandableLayout extends LinearLayout {
 
     private void setDefaultContent() {
         binding.setDefaultContent(true);
-        binding.setShowContentFirstLine(showContentFirstLine);
         if (attributesArray == null)
             return;
         String contentTxt = attributesArray.getString(R.styleable.ExpandableLayout_exp_content);
@@ -258,8 +257,12 @@ public class ExpandableLayout extends LinearLayout {
 
 
     private void collapse(boolean smoothAnimate, int contentHeight) {
-        animateViews(getContentView(), contentHeight, contentHeight,
+        animateViews(getContentView(), contentHeight, contentHeight - getPinnedLineHeight(),
                 COLLAPSING, smoothAnimate);
+    }
+
+    private int getPinnedLineHeight() {
+        return Math.round(pinnedLineHeight);
     }
 
     public void expand(boolean smoothAnimate) {
@@ -267,7 +270,7 @@ public class ExpandableLayout extends LinearLayout {
     }
 
     private void expand(int contentHeight, boolean smoothAnimate) {
-        animateViews(getContentView(), 0, contentHeight
+        animateViews(getContentView(), getPinnedLineHeight(), contentHeight
                 , EXPANDING, smoothAnimate);
     }
 
