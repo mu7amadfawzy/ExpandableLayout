@@ -27,8 +27,12 @@ public class BindingUtil {
     @BindingAdapter("fontPath")
     public static void setFont(TextView view, String fontPath) {
         if (fontPath != null) {
-            Typeface type = Typeface.createFromAsset(view.getContext().getAssets(), fontPath);
-            view.setTypeface(type, Typeface.NORMAL);
+            try {
+                Typeface type = Typeface.createFromAsset(view.getContext().getAssets(), fontPath);
+                view.setTypeface(type, view.getTypeface().getStyle());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

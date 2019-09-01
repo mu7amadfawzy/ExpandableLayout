@@ -22,4 +22,8 @@
     <color name="lightGray">#FFB3B3B3</color>
     <color name="transparent">#00000000</color>
 
+    <color name="exp_header_text_color">#000000</color>
+    <color name="exp_content_text_color">#757575</color>
+    <color name="exp_header_arrow_tint">@color/colorPrimary</color>
+
 </resources>

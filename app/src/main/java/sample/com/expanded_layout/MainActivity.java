@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         ExpandableLayout expandableLayout = new ExpandableLayout(this)
                 .setHeaderTitle("Added By Java", Color.BLACK)
                 .setDefaultContent("Content xxx xxxxxxxxx xxxxxxxx xxxxxx xxx", Color.BLUE)
-                .setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
+                .setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.exp_header_arrow));
         container.addView(expandableLayout);
     }
 

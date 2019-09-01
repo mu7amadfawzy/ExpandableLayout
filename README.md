@@ -92,6 +92,21 @@ expandableLayout.setOnExpandedListener(new OnExpandedListener() {
     }
 });
 ````
+#### Override resources to apply custom attributes for a whole project:
+````
+    <color name="exp_header_text_color">#000000</color>
+    <color name="exp_content_text_color">#757575</color>
+    <color name="exp_header_arrow_tint">@color/colorPrimary</color>
+    
+    <dimen name="exp_content_marginStart">5dp</dimen>
+    <dimen name="exp_header_text_size">14dp</dimen>
+    <dimen name="exp_content_text_size">14dp</dimen>
+    
+    <string name="exp_header_font_path">fonts/myFont.ttf</string>
+    <string name="exp_content_font_path">fonts/myFont.ttf</string>
+    
+    
+````
 
 ### 2.2 Dynamically:
 

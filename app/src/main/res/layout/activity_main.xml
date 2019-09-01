@@ -58,13 +58,11 @@
                 android:layout_height="wrap_content"
                 app:arrow_icon="@drawable/ic_arrow_downward"
                 app:content_color="@color/colorAccentDark"
-                app:content_font="fonts/Cairo-Bold.ttf"
                 app:content_size="@dimen/_8ssp"
                 app:content_style="bold"
                 app:exp_content=" Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
                 app:exp_title=" Header Text Color Sample"
                 app:header_color="@color/colorPrimary"
-                app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_text_style="italic"
                 app:startExpanded="true" />
 
@@ -99,7 +97,8 @@
                 app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_layout="@layout/layout_expandable_header"
                 app:header_padding="@dimen/_5sdp"
-                app:header_text_style="italic" />
+                app:header_text_style="italic"
+                app:hideArrow="true" />
 
             <View
                 android:layout_width="match_parent"
@@ -112,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:arrow_height="30dp"
-                app:arrow_icon="@drawable/arrow_down"
+                app:arrow_icon="@drawable/exp_header_arrow"
                 app:arrow_width="30dp"
                 app:content_layout="@layout/custom_content"
                 app:duration="300"
@@ -130,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transGreen"
-                app:arrow_icon="@drawable/arrow_down"
+                app:arrow_icon="@drawable/exp_header_arrow"
                 app:exp_title="No Content"
                 app:header_color="@color/white"
                 app:header_font="fonts/Cairo-SemiBold.ttf"
