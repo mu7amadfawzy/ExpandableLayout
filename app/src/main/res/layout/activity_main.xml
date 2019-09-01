@@ -56,7 +56,6 @@
             <widget.com.expandablelayout.ExpandableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:arrow_icon="@drawable/ic_arrow_downward"
                 app:content_color="@color/colorAccentDark"
                 app:content_size="@dimen/_8ssp"
                 app:content_style="bold"

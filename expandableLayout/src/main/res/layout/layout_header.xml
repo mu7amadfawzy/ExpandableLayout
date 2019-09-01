@@ -52,16 +52,16 @@
             android:layout_centerVertical="true"
             android:clickable="false"
             android:gravity="center_vertical"
-            android:textDirection="locale"
             android:text="@{title}"
             android:textColor="@color/exp_header_text_color"
+            android:textDirection="locale"
             android:textSize="@dimen/exp_header_text_size"
             bind:fontPath="@{fontPath!=null?fontPath:@string/exp_header_font_path}"
             bind:visibility="@{!customHeader}"
             tools:text="Header"
             tools:visibility="visible" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageView
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,8 +69,9 @@
             android:layout_centerVertical="true"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="false"
-            android:src="@drawable/exp_header_arrow"
             android:gravity="end"
+            android:src="@drawable/exp_header_arrow"
+            android:tint="@color/exp_header_arrow_tint"
             bind:src="@{drawable}"
             bind:visibility="@{!hideArrow}"
             tools:src="@drawable/exp_header_arrow"

@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="exp_header_arrow_tint">#3A339F</color>
+    <color name="exp_header_arrow_tint">#D81B60</color>
 </resources>
