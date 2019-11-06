@@ -10,9 +10,10 @@ An Android library that lets you create an expandable layout in a simple and eas
 ### 1- Include library
 
 #### Using Gradle
+##### Latest stable version is 3.3.1
 ```
 dependencies {
-implementation  'com.widget:expandableLayout:3+'
+implementation  'com.widget:expandableLayout:+'
 }
 ```
 #### Using Maven
