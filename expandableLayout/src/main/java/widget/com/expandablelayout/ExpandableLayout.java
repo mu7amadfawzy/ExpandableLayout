@@ -102,12 +102,6 @@ public class ExpandableLayout extends LinearLayout {
         else collapse(false);
     }
 
-    public void setArrowWidthHeight(float arrow_width, float arrow_height) {
-        this.arrow_width = arrow_width;
-        this.arrow_height = arrow_height;
-        setArrowParams();
-    }
-
     private void setArrowParams() {
         if (hideArrow)
             return;
