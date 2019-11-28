@@ -16,8 +16,11 @@ import androidx.databinding.BindingAdapter;
 public class BindingUtil {
     @BindingAdapter({"src"})
     public static void setImageBackground(ImageView view, Drawable drawable) {
-        if (drawable != null)
-            view.setImageDrawable(drawable);
+        if (drawable == null)
+            return;
+        view.setBackground(null);
+        view.setBackgroundResource(0);
+        view.setImageDrawable(drawable);
     }
 
     @BindingAdapter("visibility")

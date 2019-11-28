@@ -1,10 +1,12 @@
 package widget.com.expandablelayout;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -21,7 +23,6 @@ import android.widget.TextView;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import widget.com.expandablecardview.R;
 import widget.com.expandablecardview.databinding.ExpandableLayoutBinding;
 
@@ -33,17 +34,15 @@ import static widget.com.expandablelayout.AnimationUtils.EXPANDING;
  * ma7madfawzy@gmail.com
  */
 public class ExpandableLayout extends LinearLayout {
-    private Integer duration = 300;
+    private static int expandedPos = -1;
     private Animation animation;
     private ExpandableLayout.OnExpandedListener listener;
-    private int headerLayoutRes = -1, contentLayoutRes = -1, headerTextStyle = Typeface.NORMAL, contentTextStyle = Typeface.NORMAL;
-    private static int expandedPos = -1;
-    private int itemPosition;
-    private Drawable arrowIconRes;
+    private int duration = 300, itemPosition, headerLayoutRes = -1, contentLayoutRes = -1, headerTextStyle = Typeface.NORMAL, contentTextStyle = Typeface.NORMAL;
+    private Drawable arrowIconDrawable;
     private TypedArray attributesArray;
-    private boolean isExpanded = true, startExpanded, hideArrow;
+    private boolean isExpanded = true, startExpanded, hideArrow, showContentFirstLine;
     private Context context;
-    private float header_text_size, content_size, arrow_width, arrow_height, pinnedLineHeight, headerPadding, contentPadding;
+    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding;
     private ExpandableLayoutBinding binding;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
@@ -77,7 +76,7 @@ public class ExpandableLayout extends LinearLayout {
         headerFontPath = attributesArray.getString(R.styleable.ExpandableLayout_header_font);
         contentFontPath = attributesArray.getString(R.styleable.ExpandableLayout_content_font);
         duration = attributesArray.getInt(R.styleable.ExpandableLayout_duration, getContext().getResources().getInteger(android.R.integer.config_shortAnimTime));
-        arrowIconRes = attributesArray.getDrawable(R.styleable.ExpandableLayout_arrow_icon);
+        arrowIconDrawable = attributesArray.getDrawable(R.styleable.ExpandableLayout_arrow_icon);
         startExpanded = attributesArray.getBoolean(R.styleable.ExpandableLayout_startExpanded, false);
         header_text_size = attributesArray.getDimension(R.styleable.ExpandableLayout_header_text_size, -1);
         arrow_width = attributesArray.getDimension(R.styleable.ExpandableLayout_arrow_width, -1);
@@ -88,7 +87,7 @@ public class ExpandableLayout extends LinearLayout {
         contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_header_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
-        pinnedLineHeight = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_pinnedLineHeight, 0));
+        showContentFirstLine = attributesArray.getBoolean(R.styleable.ExpandableLayout_showContentFirstLine, false);
     }
 
     private void initViews(final Context context) {
@@ -96,7 +95,7 @@ public class ExpandableLayout extends LinearLayout {
         binding.headerLayout.setHideArrow(hideArrow);
         binding.headerLayout.setCustomHeader(false);
         setArrowParams();
-        setDrawableBackground(binding.headerLayout.arrow, arrowIconRes);
+        binding.headerLayout.setDrawable(arrowIconDrawable);
         binding.headerLayout.getRoot().setOnClickListener(this::onHeaderClicked);
         inflateInnerViews(context);
         if (startExpanded) startArrowRotation(EXPANDING, 0);
@@ -120,21 +119,6 @@ public class ExpandableLayout extends LinearLayout {
         if (width == -1 && height == -1)
             return;
         setParams(binding.headerLayout.arrow, width, height);
-
-    }
-
-    private int measureContentHeight() {
-        return getMeasuredHeight(getContentView());
-    }
-
-    private int getContentMeasuredHeight() {
-        return getContentView().getMeasuredHeight();
-    }
-
-    private int getMeasuredHeight(View view) {
-        view.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        return view.getMeasuredHeight();
     }
 
     private void setParams(View view, float width, float height) {
@@ -261,17 +245,45 @@ public class ExpandableLayout extends LinearLayout {
                 COLLAPSING, smoothAnimate);
     }
 
-    private int getPinnedLineHeight() {
-        return Math.round(pinnedLineHeight);
-    }
-
     public void expand(boolean smoothAnimate) {
+        setContentTvLinesBeforeExpanding();
         expand(measureContentHeight(), smoothAnimate);
     }
 
     private void expand(int contentHeight, boolean smoothAnimate) {
-        animateViews(getContentView(), getPinnedLineHeight(), contentHeight
+        int pinnedLineHeight = getPinnedLineHeight();
+        animateViews(getContentView(), pinnedLineHeight, contentHeight - pinnedLineHeight
                 , EXPANDING, smoothAnimate);
+//        animateMaxLinesToExpand();
+    }
+
+    private void animateMaxLinesToExpand() {
+        ObjectAnimator animation = ObjectAnimator.ofInt(binding.contentTV, "maxLines", 25);
+        animation.setDuration(duration);
+        animation.start();
+    }
+
+    /**
+     * returns the height of the contentTv to handle the singleLine scenario
+     */
+    private int getPinnedLineHeight() {
+        if (!showContentFirstLine)
+            return 0;
+        if (isExpanded) {//going to collapse , the return value determines how much distance to move
+            setContentTvLinesBeforeCollapsing();
+            return measureContentHeight();
+        } else {
+            return getContentMeasuredHeight();
+        }
+    }
+
+    private void setContentTvLinesBeforeExpanding() {
+        binding.contentTV.setMaxLines(Integer.MAX_VALUE);
+    }
+
+    private void setContentTvLinesBeforeCollapsing() {
+        binding.contentTV.setMaxLines(1);
+        binding.contentTV.setEllipsize(TextUtils.TruncateAt.END);
     }
 
     private void animateViews(final View view, final int initialHeight, final int distance, final int animationType, boolean smooth) {
@@ -298,6 +310,20 @@ public class ExpandableLayout extends LinearLayout {
         animation.setDuration(smooth ? duration : 0);
         startAnimation(animation);
         startArrowRotation(animationType, duration);
+    }
+
+    private int measureContentHeight() {
+        return getMeasuredHeight(getContentView());
+    }
+
+    private int getContentMeasuredHeight() {
+        return getContentView().getMeasuredHeight();
+    }
+
+    private int getMeasuredHeight(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        return view.getMeasuredHeight();
     }
 
     /**
@@ -350,10 +376,9 @@ public class ExpandableLayout extends LinearLayout {
         return binding;
     }
 
-    private void setDrawableBackground(ImageView imageButton, Drawable drawable) {
-        if (drawable != null && imageButton != null) {
-            imageButton.setVisibility(VISIBLE);
-            imageButton.setBackground(drawable);
+    private void setDrawableBackground(ImageView imageView, Drawable drawable) {
+        if (drawable != null && imageView != null) {
+
         }
     }
 

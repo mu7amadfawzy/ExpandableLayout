@@ -32,7 +32,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        tools:padding="30dp">
 
 
         <RelativeLayout
@@ -70,9 +71,8 @@
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="false"
             android:gravity="end"
-            android:src="@drawable/exp_header_arrow"
             android:tint="@color/exp_header_arrow_tint"
-            bind:src="@{drawable}"
+            bind:src="@{drawable==null?@drawable/exp_header_arrow:drawable}"
             bind:visibility="@{!hideArrow}"
             tools:src="@drawable/exp_header_arrow"
             tools:visibility="visible" />

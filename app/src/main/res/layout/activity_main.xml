@@ -59,11 +59,19 @@
                 app:content_color="@color/colorAccentDark"
                 app:content_size="@dimen/_8ssp"
                 app:content_style="bold"
-                app:exp_content=" Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
+                app:exp_content=" Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample Default Content Text Sample;"
                 app:exp_title=" Header Text Color Sample"
                 app:header_color="@color/colorPrimary"
+                app:showContentFirstLine="true"
                 app:header_text_style="italic"
                 app:startExpanded="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#000" />
 
             <widget.com.expandablelayout.ExpandableLayout
                 android:id="@+id/cutsom_expandable"
@@ -72,6 +80,7 @@
                 app:arrow_icon="@drawable/ic_arrow_downward"
                 app:content_layout="@layout/layout_expandable_content"
                 app:duration="300"
+                app:startExpanded="true"
                 app:exp_title="CUSTOM CONTENT" />
 
             <View
