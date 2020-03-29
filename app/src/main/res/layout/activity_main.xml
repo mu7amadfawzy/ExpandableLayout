@@ -59,11 +59,11 @@
                 app:content_color="@color/colorAccentDark"
                 app:content_size="@dimen/_8ssp"
                 app:content_style="bold"
-                app:exp_content=" Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample Default Content Text Sample;"
-                app:exp_title=" Header Text Color Sample"
+                app:exp_content=" Content Text Sample \n with showContentFirstLine = true \n new line"
+                app:exp_title=" Show content first line enabled"
                 app:header_color="@color/colorPrimary"
-                app:showContentFirstLine="true"
                 app:header_text_style="italic"
+                app:showContentFirstLine="true"
                 app:startExpanded="true" />
 
             <View
@@ -80,8 +80,8 @@
                 app:arrow_icon="@drawable/ic_arrow_downward"
                 app:content_layout="@layout/layout_expandable_content"
                 app:duration="300"
-                app:startExpanded="true"
-                app:exp_title="CUSTOM CONTENT" />
+                app:exp_title="CUSTOM CONTENT"
+                app:startExpanded="true" />
 
             <View
                 android:layout_width="match_parent"
@@ -100,13 +100,15 @@
                 app:content_color="@color/colorPrimaryDark"
                 app:content_padding="@dimen/_8sdp"
                 app:duration="300"
-                app:exp_content="Default Content Text Sample Default Content Text Sample  Default Content Text Sample \nDefault Content Text Sample   Default Content Text Sample"
+                app:exp_content="An Android library that lets you create an expandable layout in a simple and easy way in which you can use the default header and content OR pass your custom layout and just expand and collapse magic is all ready."
                 app:header_color="@color/colorAccentDark"
                 app:header_font="fonts/Cairo-SemiBold.ttf"
                 app:header_layout="@layout/layout_expandable_header"
                 app:header_padding="@dimen/_5sdp"
-                app:header_text_style="italic"
-                app:hideArrow="true" />
+                app:header_text_style="bold"
+                app:hideArrow="false"
+                app:showContentFirstLine="true"
+                app:startExpanded="false" />
 
             <View
                 android:layout_width="match_parent"
@@ -138,10 +140,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transGreen"
                 app:arrow_icon="@drawable/exp_header_arrow"
-                app:exp_title="No Content"
-                app:header_color="@color/white"
-                app:header_font="fonts/Cairo-SemiBold.ttf"
-                app:header_text_size="@dimen/_14ssp" />
+                app:content_layout="@layout/layout_expandable_content"
+                app:header_layout="@layout/layout_expandable_header"
+                app:startExpanded="false" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

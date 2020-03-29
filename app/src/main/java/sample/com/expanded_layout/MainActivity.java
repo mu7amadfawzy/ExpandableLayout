@@ -8,10 +8,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import sample.com.expanded_layout.notifications.NotificationsActivity;
 import widget.com.expandablelayout.ExpandableLayout;
 import widget.com.expandedcardview.R;
+import widget.com.expandedcardview.databinding.LayoutExpandableHeaderBinding;
 
 public class MainActivity extends AppCompatActivity {
     ExpandableLayout expandableLayout;
@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         expandableLayout = findViewById(R.id.expandable);
         container = findViewById(R.id.container);
-        setListener();
-        addExpandable();
-        addCustomExpandable();
+//        setListener();
+//        addExpandable();
+//        addCustomExpandable();
     }
 
     private void addExpandable() {
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 .setHeaderTitle(R.layout.layout_expandable_header)
                 .setContentLayout(R.layout.layout_expandable_content)
                 .setArrowDrawable(getDrawable(R.drawable.ic_arrow_downward));
+        LayoutExpandableHeaderBinding binding = (LayoutExpandableHeaderBinding) expandableLayout.getHeaderLayoutBinding();
+        binding.contentDetail.setText("Just changed programmatically");
         container.addView(expandableLayout);
     }
 

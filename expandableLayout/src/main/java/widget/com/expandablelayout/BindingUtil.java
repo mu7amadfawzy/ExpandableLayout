@@ -14,7 +14,7 @@ import androidx.databinding.BindingAdapter;
  */
 
 public class BindingUtil {
-    @BindingAdapter({"src"})
+    @BindingAdapter({"exp_src"})
     public static void setImageBackground(ImageView view, Drawable drawable) {
         if (drawable == null)
             return;
@@ -23,12 +23,12 @@ public class BindingUtil {
         view.setImageDrawable(drawable);
     }
 
-    @BindingAdapter("visibility")
+    @BindingAdapter("exp_visibility")
     public static void visibility(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    @BindingAdapter("fontPath")
+    @BindingAdapter("exp_fontPath")
     public static void setFont(TextView view, String fontPath) {
         if (fontPath != null) {
             try {

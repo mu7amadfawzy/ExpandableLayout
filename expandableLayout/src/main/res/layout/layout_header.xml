@@ -32,8 +32,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        tools:padding="30dp">
+        android:gravity="center_vertical">
 
 
         <RelativeLayout
@@ -42,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            bind:visibility="@{customHeader}"
+            bind:exp_visibility="@{customHeader}"
             tools:visibility="visible" />
 
         <TextView
@@ -57,8 +56,8 @@
             android:textColor="@color/exp_header_text_color"
             android:textDirection="locale"
             android:textSize="@dimen/exp_header_text_size"
-            bind:fontPath="@{fontPath!=null?fontPath:@string/exp_header_font_path}"
-            bind:visibility="@{!customHeader}"
+            bind:exp_fontPath="@{fontPath!=null?fontPath:@string/exp_header_font_path}"
+            bind:exp_visibility="@{!customHeader}"
             tools:text="Header"
             tools:visibility="visible" />
 
@@ -72,8 +71,8 @@
             android:clickable="false"
             android:gravity="end"
             android:tint="@color/exp_header_arrow_tint"
-            bind:src="@{drawable==null?@drawable/exp_header_arrow:drawable}"
-            bind:visibility="@{!hideArrow}"
+            bind:exp_src="@{drawable==null?@drawable/exp_header_arrow:drawable}"
+            bind:exp_visibility="@{!hideArrow}"
             tools:src="@drawable/exp_header_arrow"
             tools:visibility="visible" />
     </RelativeLayout>

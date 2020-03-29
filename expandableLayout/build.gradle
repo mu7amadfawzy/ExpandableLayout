@@ -1,47 +1,15 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
-    }
-}
-
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'
 
-ext {
-    bintrayRepo = 'expandableLayout'          //the repo name in Bintray dashboard
-    bintrayName = 'com.widget.expandableLayout'//the package name in Bintray repo
-    libraryName = 'expandableLayout'           // the module name in the android studio project
-    //library name will be like -> publishedGroupId:artifact:libraryVersion
-    publishedGroupId = 'com.widget'             //the ID you want to add in the 'implementation line'
-    artifact = 'expandableLayout'               //the artifact you want to add in the 'implementation line'
-    libraryVersion = '3.3.3'
-    libraryDescription = 'An Android library that lets you create in a simple and fast Layout in which you can insert your custom layout and just expand and collapse without even writing a single Java/Kotlin line of code.'
-
-    siteUrl = 'https://github.com/ma7madfawzy/ExpandableLayout'
-    gitUrl = 'https://github.com/ma7madfawzy/ExpandableLayout.git'
-
-
-    developerId = 'ma7madfawzy'
-    developerName = 'Mahmad fawzy'
-    developerEmail = 'ma7madfawzy@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 1.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-1.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 4
-        versionName "3.3.3"
+        versionName "3.3.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -56,8 +24,6 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -65,99 +31,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'me.grantland:autofittextview:0.2.+'
-    testImplementation 'junit:junit:4.12'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'tk.zielony:carbon:0.15.2'
-
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
-group = publishedGroupId
-version = libraryVersion
-
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-            groupId publishedGroupId
-            artifactId artifact
-
-            name libraryName
-            description libraryDescription
-            url siteUrl
-
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        dryRun = false
-        publish = true
-        override = false
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-        }
-    }
-}
-//this line makes it easier to make uploading to Bintray
-if(project.rootProject.file('local.properities').exists()){
-    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
-}
-

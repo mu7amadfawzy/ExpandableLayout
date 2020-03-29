@@ -1,0 +1,24 @@
+ext {
+    bintrayRepo = 'expandableLayout'          //the repo name in Bintray dashboard
+    bintrayName = 'com.widget.expandableLayout'//the package name in Bintray repo
+    libraryName = 'expandableLayout'           // the module name in the android studio project
+    //library name will be like -> publishedGroupId:artifact:libraryVersion
+    publishedGroupId = 'com.widget'
+    //the ID you want to add in the 'implementation line'
+    artifact = 'expandableLayout'
+    //the artifact you want to add in the 'implementation line'
+    libraryVersion = '3.3.4'
+    libraryDescription = 'An Android library that lets you create in a simple and fast Layout in which you can insert your custom layout and just expand and collapse without even writing a single Java/Kotlin line of code.'
+
+    siteUrl = 'https://github.com/ma7madfawzy/ExpandableLayout'
+    gitUrl = 'https://github.com/ma7madfawzy/ExpandableLayout.git'
+
+
+    developerId = 'ma7madfawzy'
+    developerName = 'Mahmad fawzy'
+    developerEmail = 'ma7madfawzy@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 1.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-1.0.txt'
+    allLicenses = ["Apache-2.0"]
+}

@@ -1,20 +1,16 @@
 package widget.com.expandablelayout;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,7 +36,7 @@ public class ExpandableLayout extends LinearLayout {
     private int duration = 300, itemPosition, headerLayoutRes = -1, contentLayoutRes = -1, headerTextStyle = Typeface.NORMAL, contentTextStyle = Typeface.NORMAL;
     private Drawable arrowIconDrawable;
     private TypedArray attributesArray;
-    private boolean isExpanded = true, startExpanded, hideArrow, showContentFirstLine;
+    private boolean isExpanded, startExpanded, hideArrow, showContentFirstLine;
     private Context context;
     private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding;
     private ExpandableLayoutBinding binding;
@@ -50,12 +46,7 @@ public class ExpandableLayout extends LinearLayout {
 
     public ExpandableLayout(Context context) {
         super(context);
-        this.context = context;
-        initViews(context);
-    }
-
-    public static void onAttachedToRecycler() {
-        expandedPos = -1;
+        init(context);
     }
 
     public ExpandableLayout(Context context, AttributeSet attrs) {
@@ -63,10 +54,19 @@ public class ExpandableLayout extends LinearLayout {
         init(context, attrs);
     }
 
+    public static void onAttachedToRecycler() {
+        expandedPos = -1;
+    }
+
     private void init(Context context, AttributeSet attrs) {
-        this.context = context;
         initAttributes(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context) {
+        this.context = context;
         initViews(context);
+        checkStart();
     }
 
     private void initAttributes(Context context, AttributeSet attrs) {
@@ -88,19 +88,28 @@ public class ExpandableLayout extends LinearLayout {
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_header_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
         showContentFirstLine = attributesArray.getBoolean(R.styleable.ExpandableLayout_showContentFirstLine, false);
+        if (contentLayoutRes != -1)
+            showContentFirstLine = false;//showContentFirstLine is only in case default content
     }
 
-    private void initViews(final Context context) {
-        binding = (ExpandableLayoutBinding) inflateView(context, R.layout.expandable_layout, this, true);
+    private void initViews(Context context) {
+        binding = inflateView(context, R.layout.expandable_layout, this);
         binding.headerLayout.setHideArrow(hideArrow);
-        binding.headerLayout.setCustomHeader(false);
         setArrowParams();
         binding.headerLayout.setDrawable(arrowIconDrawable);
         binding.headerLayout.getRoot().setOnClickListener(this::onHeaderClicked);
         inflateInnerViews(context);
-        if (startExpanded) startArrowRotation(EXPANDING, 0);
-        else collapse(false);
     }
+
+    private void checkStart() {
+        if (startExpanded) {
+            expand(false);
+            return;
+        }
+        if (isDefaultContent() && showContentFirstLine)
+            showContentFirstLine();
+    }
+
 
     private void setArrowParams() {
         if (hideArrow)
@@ -125,15 +134,26 @@ public class ExpandableLayout extends LinearLayout {
     }
 
     private void inflateInnerViews(Context context) {
-        if (isDefaultHeader())
-            setHeaderTitle();
-        else inflateHeader(context, headerLayoutRes);
+        inflateHeader(context);
+        inflateContent(context);
+        clearAttributes();
+    }
+
+    private void clearAttributes() {
+        if (attributesArray != null)
+            attributesArray.recycle();
+    }
+
+    private void inflateContent(Context context) {
         if (isDefaultContent())
             setDefaultContent();
         else inflateContent(context, contentLayoutRes);
+    }
 
-        if (attributesArray != null)
-            attributesArray.recycle();
+    private void inflateHeader(Context context) {
+        if (isDefaultHeader())
+            setHeaderTitle();
+        else inflateHeader(context, headerLayoutRes);
     }
 
     private void setHeaderTitle() {
@@ -189,15 +209,14 @@ public class ExpandableLayout extends LinearLayout {
 
     private void inflateHeader(Context context, int viewID) {
         binding.setDefaultHeader(false);
-        binding.headerLayout.setCustomHeader(true);
-        binding.headerLayout.headerLayout.removeAllViews();
-        customHeaderBinding = inflateView(context, viewID, binding.headerLayout.headerLayout, true);
+//        binding.headerLayout.headerLayout.removeAllViews();
+        customHeaderBinding = inflateView(context, viewID, binding.headerLayout.headerLayout);
     }
 
     private void inflateContent(Context context, int viewID) {
         binding.setDefaultContent(false);
-        binding.contentLayout.removeAllViews();
-        customContentBinding = inflateView(context, viewID, binding.contentLayout, true);
+//        binding.contentLayout.removeAllViews();
+        customContentBinding = inflateView(context, viewID, binding.contentLayout);
     }
 
     private void onHeaderClicked(View v) {
@@ -209,8 +228,8 @@ public class ExpandableLayout extends LinearLayout {
     }
 
     public void refresh(boolean smoothAnimate) {
-        if (isExpanded)
-            expand(measureContentHeight(), smoothAnimate);
+        if (isExpanded)//measuring content height again and expanding to it
+            handleMotion(getContentView(), getContentMeasuredHeight(), measureContentHeight(), EXPANDING, smoothAnimate);
         else collapse(smoothAnimate);
     }
 
@@ -229,81 +248,42 @@ public class ExpandableLayout extends LinearLayout {
             expand(smoothAnimate);
     }
 
-    public void collapse(boolean smoothAnimate) {
-        collapse(smoothAnimate, getContentMeasuredHeight());
+    private void collapse(boolean smoothAnimate) {
+        int contentHeight = getContentMeasuredHeight();
+        handleMotion(getContentView(), contentHeight, contentHeight, COLLAPSING, smoothAnimate);
     }
 
-
-    private void collapse(boolean smoothAnimate, int contentHeight) {
-        animateViews(getContentView(), contentHeight, contentHeight - getPinnedLineHeight(),
-                COLLAPSING, smoothAnimate);
+    private void expand(boolean smoothAnimate) {
+        handleMotion(getContentView(), showContentFirstLine ? measureContentHeight() : 0, measureContentHeight(), EXPANDING, smoothAnimate);
     }
 
-    public void expand(boolean smoothAnimate) {
-        setContentTvLinesBeforeExpanding();
-        expand(measureContentHeight(), smoothAnimate);
-    }
-
-    private void expand(int contentHeight, boolean smoothAnimate) {
-        int pinnedLineHeight = getPinnedLineHeight();
-        animateViews(getContentView(), pinnedLineHeight, contentHeight - pinnedLineHeight
-                , EXPANDING, smoothAnimate);
-//        animateMaxLinesToExpand();
-    }
-
-    private void animateMaxLinesToExpand() {
-        ObjectAnimator animation = ObjectAnimator.ofInt(binding.contentTV, "maxLines", 25);
-        animation.setDuration(duration);
-        animation.start();
-    }
-
-    /**
-     * returns the height of the contentTv to handle the singleLine scenario
-     */
-    private int getPinnedLineHeight() {
-        if (!showContentFirstLine)
-            return 0;
-        if (isExpanded) {//going to collapse , the return value determines how much distance to move
-            setContentTvLinesBeforeCollapsing();
-            return measureContentHeight();
-        } else {
-            return getContentMeasuredHeight();
-        }
-    }
-
-    private void setContentTvLinesBeforeExpanding() {
-        binding.contentTV.setMaxLines(Integer.MAX_VALUE);
-    }
-
-    private void setContentTvLinesBeforeCollapsing() {
-        binding.contentTV.setMaxLines(1);
-        binding.contentTV.setEllipsize(TextUtils.TruncateAt.END);
-    }
-
-    private void animateViews(final View view, final int initialHeight, final int distance, final int animationType, boolean smooth) {
+    private void handleMotion(final View view, final int initialHeight, final int distance, final int animationType, boolean smooth) {
         isExpanded = animationType == EXPANDING;
         checkRecyclerCase();
-        animation = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if (interpolatedTime == 1) {
-                    updateListener(view, animationType);
-                }
-                view.getLayoutParams().height =
-                        animationType == EXPANDING ? Math.round(initialHeight + (distance * interpolatedTime))
-                                : (int) (initialHeight - (distance * interpolatedTime));
-                view.requestLayout();
-            }
+        if (isDefaultContent()) animateDefaultContentLines(animationType, initialHeight, smooth);
+        else animateCustomContent(view, initialHeight, distance, animationType, smooth);
+        if (!hideArrow) animateArrow(animationType, duration);
+    }
 
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
+    private void animateDefaultContentLines(int animationType, int initialHeight, boolean smooth) {
+        AnimationUtils.getInstance().animateTextViewMaxLinesChange(binding.contentTV, initialHeight
+                , animationType == EXPANDING ? Integer.MAX_VALUE : (showContentFirstLine ? 1 : 0), (smooth ? duration : 0));
+    }
 
-        animation.setDuration(smooth ? duration : 0);
-        startAnimation(animation);
-        startArrowRotation(animationType, duration);
+    private void showContentFirstLine() {
+        binding.contentTV.setMaxLines(1);
+        binding.contentTV.setVisibility(VISIBLE);
+    }
+
+    private void animateCustomContent(View view, int initialHeight, int distance, int animationType, boolean smooth) {
+        initialHeight = animationType == EXPANDING ? 0 : initialHeight;
+        int targetHeight = animationType == EXPANDING ? (initialHeight + distance) : 0;
+        AnimationUtils.getInstance().animateViewHeight(view, initialHeight, targetHeight, smooth ? duration : 0);
+    }
+
+    private void setViewHeight(View view, float height) {
+        view.getLayoutParams().height = Math.round(height);
+        view.requestLayout();
     }
 
     private int measureContentHeight() {
@@ -342,21 +322,12 @@ public class ExpandableLayout extends LinearLayout {
 
     private void updateListener(View view, int animationType) {
         if (listener != null) {
-            if (animationType == EXPANDING) {
-                listener.onExpandChanged(view, true);
-            } else {//in case it is getting collapsed by attribute startExpanded then updating listener isn't required
-                if (!startExpanded)
-                    startExpanded = true;
-                else
-                    listener.onExpandChanged(view, false);
-            }
+            listener.onExpandChanged(view, animationType == EXPANDING);
         }
     }
 
-    private void startArrowRotation(int animationType, Integer duration) {
-        RotateAnimation arrowAnimation = AnimationUtils.getInstance()
-                .getRotateAnimation(animationType, duration);
-        binding.headerLayout.arrow.startAnimation(arrowAnimation);
+    private void animateArrow(int animationType, Integer duration) {
+        AnimationUtils.getInstance().rotateAnimation(binding.headerLayout.arrow, animationType == EXPANDING, duration);
     }
 
 
@@ -364,10 +335,9 @@ public class ExpandableLayout extends LinearLayout {
         return isDefaultContent() ? binding.contentTV : binding.contentLayout;
     }
 
-    private ViewDataBinding inflateView(Context context, int viewID, ViewGroup root, boolean attachToRoot) {
-        ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),
-                viewID, root, attachToRoot);
-        return binding;
+    private <T extends ViewDataBinding> T inflateView(Context context, int viewID, ViewGroup root) {
+        return DataBindingUtil.inflate(LayoutInflater.from(context),
+                viewID, root, true);
     }
 
     private void setDrawableBackground(ImageView imageView, Drawable drawable) {
@@ -394,11 +364,10 @@ public class ExpandableLayout extends LinearLayout {
         return this;
     }
 
-    private ExpandableLayout setDefaultContent(String title, int textColor, int contentTextStyle, float content_size) {
+    private void setDefaultContent(String title, int textColor, int contentTextStyle, float content_size) {
         setDefaultContent(title, textColor);
         setContentTextStyle(contentTextStyle);
         setContentTextSize(content_size);
-        return this;
     }
 
     public ExpandableLayout setHeaderTitle(String title, int headerTextColor) {
@@ -412,11 +381,10 @@ public class ExpandableLayout extends LinearLayout {
         return this;
     }
 
-    private ExpandableLayout setHeaderTitle(String title, int headerTextColor, float header_text_size, int headerTextStyle) {
+    private void setHeaderTitle(String title, int headerTextColor, float header_text_size, int headerTextStyle) {
         setHeaderTitle(title, headerTextColor);
         setHeaderTextStyle(headerTextStyle);
         setHeaderTextSize(header_text_size);
-        return this;
     }
 
     public ExpandableLayout setDefaultContent(String title, int textColor) {

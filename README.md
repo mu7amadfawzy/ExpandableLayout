@@ -99,8 +99,8 @@ expandableLayout.setOnExpandedListener(new OnExpandedListener() {
     <color name="exp_header_arrow_tint">@color/colorPrimary</color>
     
     <dimen name="exp_content_marginStart">5dp</dimen>
-    <dimen name="exp_header_text_size">14dp</dimen>
-    <dimen name="exp_content_text_size">14dp</dimen>
+    <dimen name="exp_header_text_size">14sp</dimen>
+    <dimen name="exp_content_text_size">14sp</dimen>
     
     <string name="exp_header_font_path">fonts/myFont.ttf</string>
     <string name="exp_content_font_path">fonts/myFont.ttf</string>

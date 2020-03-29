@@ -16,10 +16,6 @@
             type="boolean" />
 
         <variable
-            name="visible"
-            type="boolean" />
-
-        <variable
             name="contentText"
             type="String" />
 
@@ -47,10 +43,11 @@
             <RelativeLayout
                 android:id="@+id/content_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:visibility="gone"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                bind:visibility="@{!defaultContent}"
+                bind:exp_visibility="@{!defaultContent}"
                 tools:visibility="gone" />
 
             <TextView
@@ -59,17 +56,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:ellipsize="end"
-                android:gravity="top|start"
                 android:layout_marginStart="@dimen/exp_content_marginStart"
-                android:textColor="@color/exp_content_text_color"
+                android:gravity="top|start"
+                android:ellipsize="end"
                 android:text="@{contentText}"
-                android:textSize="@dimen/exp_content_text_size"
+                android:textAlignment="viewStart"
                 android:textDirection="locale"
-                bind:fontPath="@{fontPath!=null?fontPath:@string/exp_content_font_path}"
-                bind:visibility="@{defaultContent &amp;contentText!=null}"
+                android:textColor="@color/exp_content_text_color"
+                android:visibility="gone"
+                android:textSize="@dimen/exp_content_text_size"
+                bind:exp_fontPath="@{fontPath!=null?fontPath:@string/exp_content_font_path}"
                 tools:text="Content"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
         </RelativeLayout>
 
 
