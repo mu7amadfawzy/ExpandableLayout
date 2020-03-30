@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
     private void setListener() {
         expandableLayout.setOnExpandedListener(new ExpandableLayout.OnExpandedListener() {
             @Override
+            public void beforeExpand() {
+
+            }
+
+            @Override
             public void onExpandChanged(View v, boolean isExpanded) {
                 Toast.makeText(MainActivity.this, "isExpanded== " + isExpanded, Toast.LENGTH_SHORT).show();
             }

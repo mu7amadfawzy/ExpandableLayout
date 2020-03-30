@@ -56,6 +56,8 @@ class AnimationUtils {
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
+                if (listener != null && expanding)
+                    listener.beforeExpand();
                 textView.setVisibility(View.VISIBLE);
             }
 
@@ -89,6 +91,12 @@ class AnimationUtils {
         animator.setInterpolator(targetHeight < initialHeight ? new DecelerateInterpolator() : new AccelerateInterpolator());
         animator.start();
         animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (listener != null && expanding)
+                    listener.beforeExpand();
+            }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (listener != null)

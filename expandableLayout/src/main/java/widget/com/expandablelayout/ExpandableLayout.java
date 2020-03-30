@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -379,6 +381,9 @@ public class ExpandableLayout extends LinearLayout {
         return this;
     }
 
+    public ExpandableLayout setArrowDrawable(@DrawableRes int drawable) {
+        return setArrowDrawable(ContextCompat.getDrawable(getContext(), drawable));
+    }
     public ExpandableLayout setArrowDrawable(Drawable drawable) {
         if (drawable != null)
             binding.headerLayout.setDrawable(drawable);
@@ -495,9 +500,11 @@ public class ExpandableLayout extends LinearLayout {
         return headerLayoutRes == -1;
     }
 
-    public interface OnExpandedListener {
+    public abstract static class OnExpandedListener {
+        public void beforeExpand() {
+        }
 
-        void onExpandChanged(View v, boolean isExpanded);
+        public abstract void onExpandChanged(View v, boolean isExpanded);
 
     }
 
