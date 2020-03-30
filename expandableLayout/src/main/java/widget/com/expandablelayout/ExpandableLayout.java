@@ -274,7 +274,7 @@ public class ExpandableLayout extends LinearLayout {
         checkRecyclerCase();
         if (isDefaultContent()) animateDefaultContentLines(animationType, initialHeight, smooth);
         else animateCustomContent(view, initialHeight, distance, animationType, smooth);
-        if (!hideArrow) animateArrow(animationType, duration);
+        if (!hideArrow || assArrowView != null) animateArrow(animationType, duration);
     }
 
     private void animateDefaultContentLines(int animationType, int initialHeight, boolean smooth) {
@@ -384,6 +384,7 @@ public class ExpandableLayout extends LinearLayout {
     public ExpandableLayout setArrowDrawable(@DrawableRes int drawable) {
         return setArrowDrawable(ContextCompat.getDrawable(getContext(), drawable));
     }
+
     public ExpandableLayout setArrowDrawable(Drawable drawable) {
         if (drawable != null)
             binding.headerLayout.setDrawable(drawable);

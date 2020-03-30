@@ -54,6 +54,8 @@ implementation  'com.widget:expandableLayout:+'
  app:header_font="fonts/fontName.ttf"
  app:content_font="fonts/fontName.ttf"'
  app:header_color="@color/colorAccentDark"
+ <!--setts margin to the header arrow imagView-->
+ app:arrow_margin="@dimen/_10sdp"
  app:content_color="@color/colorAccent"
  app:header_padding="10dp"
  app:content_padding="14dp"
@@ -88,8 +90,12 @@ implementation  'com.widget:expandableLayout:+'
 expandableLayout.setOnExpandedListener(new OnExpandedListener() {
     @Override
     public void onExpandChanged(View view, boolean isExpanded) {
-        //TODO handle onExpandChanged
+        //handle onExpandChanged
     }
+      //override if needed
+     @Override
+     public void beforeExpand() {
+     }
 });
 ````
 #### Override resources to apply custom attributes for a whole project:
@@ -111,14 +117,12 @@ expandableLayout.setOnExpandedListener(new OnExpandedListener() {
 
 ### 2.2 Dynamically:
 
-#### In Java:
-
 ##### Default HeaderTV and ContentTV
 ````
  ExpandableLayout expandableLayout = new ExpandableLayout(context)
                 .setHeaderTitle("Added By Java", Color.BLACK)
                 .setDefaultContent("Content xxx", Color.BLUE)
-                .setArrowDrawable(ContextCompat.getDrawable(this, R.drawable.arrow_down));
+                .setArrowDrawable(R.drawable.arrow_down);
 ````
 
 ##### Custom HeaderTV OR ContentTV
@@ -126,17 +130,7 @@ expandableLayout.setOnExpandedListener(new OnExpandedListener() {
 expandableLayout.setHeaderLayout(R.layout.custom_header);
                 .setContentLayout(R.layout.custom_content);
 ````
-#### In Kotlin:
-
-##### Default HeaderTV and ContentTV
-````
-var expandableLayout = ExpandableLayout(context)
-                 .setDefaultHeaderTitle("Added Through Kotlin")
-                 .setDefaultContentTitle("Content xxx")
-                 .setArrowDrawable(R.drawable.arrow_ic)
-````
-
-##### Custom HeaderTV OR ContentTV
+##### Custom Header OR Content
 ````
 expandableLayout.setHeaderLayout(R.layout.custom_header)
                 .setContentLayout(R.layout.custom_content)
@@ -145,8 +139,9 @@ expandableLayout.setHeaderLayout(R.layout.custom_header)
 ````
 container.addView(expandableLayout)
 ````
+
 ##### Then you can trigger your custom layouts using:
-###### For DataBinding lovers 
+###### DataBinding
 ````
 expandable.getHeaderLayoutBinding();//returns ViewDataBinding which can be cast to your layout binding Impl class
 expandable.getContentLayoutBinding();
@@ -155,6 +150,10 @@ expandable.getContentLayoutBinding();
 ````
 expandable.getHeaderLayoutView();
 expandable.getContentLayoutView();
+````
+##### to animate a custom view with expanding and collapsing instead of the default arrow
+````
+expandableLayout.setAsArrow(mArrowImageView);
 ````
 ### 2.3 In RecyclerView:
 #### In order to setup using in RecyclerView call ```ExpandableLayout.onAttachedToRecycler()``` before binding items of the Adapter.
