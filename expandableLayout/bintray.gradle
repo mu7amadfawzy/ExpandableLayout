@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.bintray'
 apply from: 'bintray.data.gradle'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
 }
 version = libraryVersion
 task sourcesJar(type: Jar) {
@@ -13,6 +13,9 @@ task javadoc(type: Javadoc) {
     options.addBooleanOption('Xdoclint:none', true)
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    classpath += configurations.javadocDeps
+    classpath += configurations.compile
+    failOnError false
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
