@@ -38,11 +38,12 @@ public class ExpandableLayout extends LinearLayout {
     private TypedArray attributesArray;
     private boolean isExpanded, startExpanded, hideArrow, showContentFirstLine;
     private Context context;
-    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding;
+    private float header_text_size, content_size, arrow_width, arrow_height, headerPadding, contentPadding, arrowMargin = -1;
     private ExpandableLayoutBinding binding;
     private String headerFontPath, contentFontPath;
     private ViewDataBinding customHeaderBinding, customContentBinding;
     private LinearLayoutManager linearLayoutManager;
+    private View assArrowView;
 
     public ExpandableLayout(Context context) {
         super(context);
@@ -87,6 +88,7 @@ public class ExpandableLayout extends LinearLayout {
         contentTextStyle = getTypeFace(attributesArray.getInt(R.styleable.ExpandableLayout_content_style, Typeface.NORMAL));
         headerPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_header_padding, -1));
         contentPadding = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_content_padding, -1));
+        arrowMargin = Math.round(attributesArray.getDimension(R.styleable.ExpandableLayout_arrow_margin, -1));
         showContentFirstLine = attributesArray.getBoolean(R.styleable.ExpandableLayout_showContentFirstLine, false);
         if (contentLayoutRes != -1)
             showContentFirstLine = false;//showContentFirstLine is only in case default content
@@ -167,6 +169,7 @@ public class ExpandableLayout extends LinearLayout {
             setPadding(binding.headerLayout.getRoot(), headerPadding, headerPadding, headerPadding, headerPadding);
         if (headerFontPath != null)
             binding.headerLayout.setFontPath(headerFontPath);
+        setArrowMargin();
 
     }
 
@@ -185,6 +188,13 @@ public class ExpandableLayout extends LinearLayout {
 
     private void setPadding(View view, float left, float top, float right, float bottom) {
         view.setPadding(Math.round(left), Math.round(top), Math.round(right), Math.round(bottom));
+    }
+
+    private void setArrowMargin() {
+        if (arrowMargin == -1) return;
+        MarginLayoutParams params = (MarginLayoutParams) binding.headerLayout.arrow.getLayoutParams();
+        int marginInt = Math.round(arrowMargin);
+        params.setMargins(marginInt, marginInt, marginInt, marginInt);
     }
 
     private int getTypeFace(int typeface) {
@@ -267,7 +277,9 @@ public class ExpandableLayout extends LinearLayout {
 
     private void animateDefaultContentLines(int animationType, int initialHeight, boolean smooth) {
         AnimationUtils.getInstance().animateTextViewMaxLinesChange(binding.contentTV, initialHeight
-                , animationType == EXPANDING ? Integer.MAX_VALUE : (showContentFirstLine ? 1 : 0), (smooth ? duration : 0));
+                , animationType == EXPANDING ? Integer.MAX_VALUE
+                        : (showContentFirstLine ? 1 : 0), (smooth ? duration : 0)
+                , animationType == EXPANDING, listener);
     }
 
     private void showContentFirstLine() {
@@ -278,7 +290,8 @@ public class ExpandableLayout extends LinearLayout {
     private void animateCustomContent(View view, int initialHeight, int distance, int animationType, boolean smooth) {
         initialHeight = animationType == EXPANDING ? 0 : initialHeight;
         int targetHeight = animationType == EXPANDING ? (initialHeight + distance) : 0;
-        AnimationUtils.getInstance().animateViewHeight(view, initialHeight, targetHeight, smooth ? duration : 0);
+        AnimationUtils.getInstance().animateViewHeight(view, initialHeight
+                , targetHeight, smooth ? duration : 0, animationType == EXPANDING, listener);
     }
 
     private void setViewHeight(View view, float height) {
@@ -327,9 +340,17 @@ public class ExpandableLayout extends LinearLayout {
     }
 
     private void animateArrow(int animationType, Integer duration) {
-        AnimationUtils.getInstance().rotateAnimation(binding.headerLayout.arrow, animationType == EXPANDING, duration);
+        AnimationUtils.getInstance().rotateAnimation(getArrowViewToAnimate(), animationType == EXPANDING, duration);
     }
 
+    private View getArrowViewToAnimate() {
+        return assArrowView == null ? binding.headerLayout.arrow : assArrowView;
+    }
+
+    public ExpandableLayout setAsArrow(View view) {
+        assArrowView = view;
+        return this;
+    }
 
     private View getContentView() {
         return isDefaultContent() ? binding.contentTV : binding.contentLayout;

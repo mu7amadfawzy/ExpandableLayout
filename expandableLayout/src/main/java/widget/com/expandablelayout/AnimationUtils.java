@@ -40,7 +40,8 @@ class AnimationUtils {
         view.startAnimation(arrowAnimation);
     }
 
-    void animateTextViewMaxLinesChange(final TextView textView, int initialHeight, final int maxLines, final int duration) {
+    void animateTextViewMaxLinesChange(final TextView textView, int initialHeight, final int maxLines
+            , final int duration, boolean expanding, ExpandableLayout.OnExpandedListener listener) {
         if (duration == 0) {
             textView.setMaxLines(maxLines);
             textView.setVisibility(maxLines == 0 ? View.GONE : View.VISIBLE);
@@ -64,12 +65,14 @@ class AnimationUtils {
                 if (textView.getMaxHeight() == endHeight) {
                     textView.setMaxLines(maxLines);
                 }
+                if (listener != null)
+                    listener.onExpandChanged(textView, expanding);
             }
         });
         animation.setDuration(duration).start();
     }
 
-    void animateViewHeight(View view, int initialHeight, int targetHeight, long duration) {
+    void animateViewHeight(View view, int initialHeight, int targetHeight, long duration, boolean expanding, ExpandableLayout.OnExpandedListener listener) {
         ObjectAnimator animator = ObjectAnimator.ofInt(view, new Property<View, Integer>(Integer.class, "height") {
             @Override
             public Integer get(View view) {
@@ -86,7 +89,11 @@ class AnimationUtils {
         animator.setInterpolator(targetHeight < initialHeight ? new DecelerateInterpolator() : new AccelerateInterpolator());
         animator.start();
         animator.addListener(new AnimatorListenerAdapter() {
-
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (listener != null)
+                    listener.onExpandChanged(view, expanding);
+            }
         });
         animator.start();
     }

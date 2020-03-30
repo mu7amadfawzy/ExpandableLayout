@@ -32,6 +32,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:gravity="center_vertical">
 
 
@@ -70,7 +71,7 @@
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="false"
             android:gravity="end"
-            android:tint="@color/exp_header_arrow_tint"
+            android:elevation="@dimen/exp_arrow_elevation"
             bind:exp_src="@{drawable==null?@drawable/exp_header_arrow:drawable}"
             bind:exp_visibility="@{!hideArrow}"
             tools:src="@drawable/exp_header_arrow"

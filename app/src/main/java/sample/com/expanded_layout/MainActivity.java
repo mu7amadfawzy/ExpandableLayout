@@ -21,11 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        expandableLayout = findViewById(R.id.expandable);
+        expandableLayout = findViewById(R.id.customHeaderExpandable);
         container = findViewById(R.id.container);
+        setAsArrow();
 //        setListener();
 //        addExpandable();
 //        addCustomExpandable();
+    }
+
+    private void setAsArrow() {
+        LayoutExpandableHeaderBinding headerBinding = (LayoutExpandableHeaderBinding) expandableLayout.getHeaderLayoutBinding();
+        expandableLayout.setAsArrow(headerBinding.asArrow);
     }
 
     private void addExpandable() {

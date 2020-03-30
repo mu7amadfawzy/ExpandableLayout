@@ -59,6 +59,7 @@
                 app:content_color="@color/colorAccentDark"
                 app:content_size="@dimen/_8ssp"
                 app:content_style="bold"
+                app:arrow_margin="@dimen/_10sdp"
                 app:exp_content=" Content Text Sample \n with showContentFirstLine = true \n new line"
                 app:exp_title=" Show content first line enabled"
                 app:header_color="@color/colorPrimary"
@@ -91,7 +92,7 @@
                 android:background="#000" />
 
             <widget.com.expandablelayout.ExpandableLayout
-                android:id="@+id/expandable"
+                android:id="@+id/customHeaderExpandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:arrow_height="40dp"
@@ -106,7 +107,7 @@
                 app:header_layout="@layout/layout_expandable_header"
                 app:header_padding="@dimen/_5sdp"
                 app:header_text_style="bold"
-                app:hideArrow="false"
+                app:hideArrow="true"
                 app:showContentFirstLine="true"
                 app:startExpanded="false" />
 

@@ -32,6 +32,7 @@
         <attr name="content_color" format="color" />
         <attr name="header_padding" format="dimension" />
         <attr name="content_padding" format="dimension" />
+        <attr name="arrow_margin" format="dimension" />
         <attr name="showContentFirstLine" format="boolean" />
     </declare-styleable>
 </resources>
