@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-   compileSdkVersion 28
-    buildToolsVersion "26.0.3"
+   compileSdkVersion 29
     defaultConfig {
         applicationId "com.widget.expandableLayout"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
