@@ -248,12 +248,12 @@ public class ExpandableLayout extends LinearLayout {
             expand(smoothAnimate);
     }
 
-    private void collapse(boolean smoothAnimate) {
+    public void collapse(boolean smoothAnimate) {
         int contentHeight = getContentMeasuredHeight();
         handleMotion(getContentView(), contentHeight, contentHeight, COLLAPSING, smoothAnimate);
     }
 
-    private void expand(boolean smoothAnimate) {
+    public void expand(boolean smoothAnimate) {
         handleMotion(getContentView(), showContentFirstLine ? measureContentHeight() : 0, measureContentHeight(), EXPANDING, smoothAnimate);
     }
 
